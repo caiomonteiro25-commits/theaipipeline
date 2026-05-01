@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lista de Espera — The AI Pipeline</title>
+<meta name="description" content="Entre na lista de espera do The AI Pipeline. Mentoria exclusiva de produção com IA. 30 vagas. Início 11 de Maio.">
+<meta name="theme-color" content="#05050F">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Lista de Espera — The AI Pipeline">
+<meta property="og:description" content="Entre na lista e seja avisado primeiro. Mentoria exclusiva de produção com IA. 30 vagas.">
+<meta property="og:url" content="https://theaipipeline.com.br/lista-de-espera">
+<meta property="og:site_name" content="The AI Pipeline">
+<meta property="og:locale" content="pt_BR">
+
+<!-- Favicon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='8' fill='%2305050F'/><text x='12' y='34' font-family='monospace' font-size='24' font-weight='bold' fill='%23C8FF00'>AI</text></svg>">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-0: #05050F;
+  --bg-1: #0A0A12;
+  --bg-2: #111125;
+  --bg-3: #15152A;
+  --line: rgba(255,255,255,0.08);
+  --text-1: #FFFFFF;
+  --text-2: #BBBBBB;
+  --text-3: #6B6B7A;
+  --violet: #7B4FE0;
+  --violet-deep: #5A35B8;
+  --violet-soft: #9D7AFF;
+  --lime: #C8FF00;
+  --lime-deep: #9DCC00;
+  --grad: linear-gradient(135deg, #7B4FE0 0%, #C8FF00 100%);
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  color: var(--text-1);
+  background: var(--bg-0);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+/* Background effects */
+.bg-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.bg-glow::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(123,79,224,0.15) 0%, transparent 70%);
+}
+.bg-glow::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(200,255,0,0.08) 0%, transparent 70%);
+}
+
+.noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  z-index: 1;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Main container */
+.container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 520px;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Logo */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+.logo:hover { opacity: 0.8; }
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--bg-0);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--lime);
+}
+.logo-text {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-1);
+  letter-spacing: -0.02em;
+}
+
+/* Badge */
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--lime);
+  background: rgba(200,255,0,0.08);
+  border: 1px solid rgba(200,255,0,0.2);
+  padding: 0.4rem 1rem;
+  border-radius: 100px;
+  margin-bottom: 1.5rem;
+}
+
+/* Title */
+h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+.grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Subtitle */
+.subtitle {
+  font-size: 1.05rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  max-width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Form card */
+.form-card {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.form-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--grad);
+}
+
+.form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.form-card input[type="email"],
+.form-card input[type="text"] {
+  width: 100%;
+  padding: 1rem 1.2rem;
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--text-1);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.form-card input:focus {
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px rgba(123,79,224,0.15);
+}
+.form-card input::placeholder {
+  color: var(--text-3);
+}
+
+.form-card button {
+  width: 100%;
+  padding: 1rem;
+  background: var(--grad);
+  border: none;
+  border-radius: 10px;
+  color: var(--bg-0);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+.form-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(123,79,224,0.3), 0 4px 15px rgba(200,255,0,0.15);
+}
+.form-card button:active {
+  transform: translateY(0);
+}
+
+/* Honeypot */
+.hp-field { position: absolute; left: -9999px; }
+
+/* Features */
+.features {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-2);
+}
+.feature-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lime);
+  flex-shrink: 0;
+}
+
+/* Back link */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--text-3);
+  text-decoration: none;
+  transition: color 0.3s;
+  margin-top: 1rem;
+}
+.back-link:hover { color: var(--violet-soft); }
+.back-link svg { width: 14px; height: 14px; }
+
+/* Success state */
+.success-msg {
+  display: none;
+  text-align: center;
+  padding: 2rem 0;
+}
+.success-msg .check {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(200,255,0,0.1);
+  border: 2px solid var(--lime);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.2rem;
+  font-size: 1.8rem;
+}
+.success-msg h2 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  margin-bottom: 0.6rem;
+}
+.success-msg p {
+  color: var(--text-2);
+  font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .container { padding: 1.5rem; }
+  .form-card { padding: 1.5rem; }
+  .features { gap: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="noise"></div>
+<div class="grid-bg"></div>
+
+<div class="container">
+
+  <a href="/" class="logo">
+    <div class="logo-icon">AI</div>
+    <span class="logo-text">The AI Pipeline</span>
+  </a>
+
+  <div class="badge">30 vagas &bull; in&iacute;cio 11 de maio</div>
+
+  <h1>Entre na<br><span class="grad-text">lista de espera</span></h1>
+
+  <p class="subtitle">Cadastre seu melhor email e seja avisado primeiro quando as vagas abrirem. Sem spam.</p>
+
+  <div class="form-card">
+    <form id="waitlist-form" action="https://4ee0552f.sibforms.com/serve/MUIFAMbx-Bk0nCiv3YA_YFocACTmQ4zgQIg9mtCXGq_OThaUKgTmbGgBjulrInKYZp_CDogNV6Fj6J_DMuaK-_MoYFKNdruCEu8BJVj13cg-buk8K7V4dfImRKrkYc4HIv4-uqJunHL6fQUGV67mYrU79tSfoCjmnm5OaawNdphq7iKDdjpIhnT_i3IaL-IITNXgya7Ey2wdjl38lQ==" method="POST">
+      <div class="input-wrapper">
+        <input type="email" name="EMAIL" placeholder="Seu melhor email" required autocomplete="email">
+      </div>
+      <!-- Honeypot anti-spam -->
+      <input type="text" name="email_address_check" class="hp-field" tabindex="-1" autocomplete="off">
+      <input type="hidden" name="locale" value="pt">
+      <button type="submit">Garantir minha vaga</button>
+    </form>
+    <div class="success-msg" id="success">
+      <div class="check">&#10003;</div>
+      <h2>Voc&ecirc; est&aacute; na lista!</h2>
+      <p>Fique de olho no seu email. Vamos avisar quando as vagas abrirem.</p>
+    </div>
+  </div>
+
+  <div class="features">
+    <div class="feature"><span class="feature-dot"></span> 4 semanas intensivas</div>
+    <div class="feature"><span class="feature-dot"></span> Produ&ccedil;&atilde;o com IA</div>
+    <div class="feature"><span class="feature-dot"></span> Acesso vital&iacute;cio</div>
+  </div>
+
+  <a href="/" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Voltar para o site
+  </a>
+
+</div>
+
+<script>
+document.getElementById('waitlist-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const form = this;
+  const formData = new FormData(form);
+
+  fetch(form.action, {
+    method: 'POST',
+    body: formData,
+    mode: 'no-cors'
+  }).then(() => {
+    form.style.display = 'none';
+    document.getElementById('success').style.display = 'block';
+  }).catch(() => {
+    form.style.display = 'none';
+    document.getElementById('success').style.display = 'block';
+  });
+});
+</script>
+
+</body>
+</html>

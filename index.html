@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The AI Pipeline — Mentoria Exclusiva de Produção com IA</title>
+<meta name="description" content="Domine a produção com AI em 4 semanas. Imagem, vídeo, música e automação. Mentoria intensiva com Caio Monteiro. 30 vagas.">
+<meta name="author" content="Caio Monteiro">
+<meta name="theme-color" content="#05050F">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="The AI Pipeline — Mentoria Exclusiva">
+<meta property="og:description" content="Domine a produção com AI em 4 semanas. Imagem, vídeo, música e automação.">
+<meta property="og:url" content="https://theaipipeline.com.br">
+<meta property="og:site_name" content="The AI Pipeline">
+<meta property="og:locale" content="pt_BR">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The AI Pipeline — Mentoria Exclusiva">
+<meta name="twitter:description" content="Domine a produção com AI em 4 semanas. Pipeline completo de produção.">
+
+<!-- Favicon placeholder -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='8' fill='%2305050F'/><text x='12' y='34' font-family='monospace' font-size='24' font-weight='bold' fill='%23C8FF00'>AI</text></svg>">
+
+<!-- Preconnect Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<style>
+/* ===== The AI Pipeline — Design Tokens ===== */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg-0: #05050F;
+  --bg-1: #0A0A12;
+  --bg-2: #111125;
+  --bg-3: #15152A;
+  --line: rgba(255,255,255,0.08);
+  --line-strong: rgba(255,255,255,0.16);
+  --text-1: #FFFFFF;
+  --text-2: #BBBBBB;
+  --text-3: #6B6B7A;
+  --text-mute: #3A3A48;
+  --violet: #7B4FE0;
+  --violet-deep: #5A35B8;
+  --violet-soft: #9D7AFF;
+  --lime: #C8FF00;
+  --lime-deep: #9DCC00;
+  --purple: #7B4FE0;
+  --purple-deep: #5A35B8;
+  --cyan: #C8FF00;
+  --cyan-deep: #9DCC00;
+  --magenta: #9D7AFF;
+  --grad: linear-gradient(135deg, #7B4FE0 0%, #C8FF00 100%);
+  --grad-soft: linear-gradient(135deg, rgba(123,79,224,0.2) 0%, rgba(200,255,0,0.15) 100%);
+  --grad-radial: radial-gradient(circle at 50% 50%, rgba(123,79,224,0.4), transparent 70%);
+  --on-grad: #0A0A12;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  color: var(--text-1);
+  background: var(--bg-0);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+.iap h1, .iap h2, .iap h3, .iap h4 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; }
+.iap .mono { font-family: var(--font-mono); }
+
+.iap-grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.iap-glow-violet, .iap-glow-purple { box-shadow: 0 0 60px rgba(123,79,224,0.4); }
+.iap-glow-lime, .iap-glow-cyan { box-shadow: 0 0 60px rgba(200,255,0,0.3); }
+
+.iap-hairgrid {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.iap-noise {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0.06;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+@keyframes iap-mesh {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  33% { transform: translate(20%,-15%) scale(1.1); }
+  66% { transform: translate(-15%,20%) scale(0.95); }
+}
+.iap-mesh-bg::before, .iap-mesh-bg::after {
+  content: ''; position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5;
+  pointer-events: none;
+}
+.iap-mesh-bg::before { width: 60%; aspect-ratio: 1; background: radial-gradient(circle, var(--violet), transparent 70%); top: -20%; left: -10%; animation: iap-mesh 18s ease-in-out infinite; }
+.iap-mesh-bg::after { width: 50%; aspect-ratio: 1; background: radial-gradient(circle, var(--lime), transparent 70%); bottom: -20%; right: -10%; animation: iap-mesh 22s ease-in-out infinite reverse; }
+
+/* ===== Scroll Animations ===== */
+.anim-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.anim-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.anim-reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.anim-reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.anim-reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.anim-reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.anim-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.anim-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger children */
+.stagger-children > * { transition-delay: calc(var(--i, 0) * 0.08s); }
+
+/* Ticker animation */
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-track {
+  animation: ticker-scroll 30s linear infinite;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .iap section { padding-left: 32px !important; padding-right: 32px !important; }
+  .iap nav { padding-left: 32px !important; padding-right: 32px !important; }
+  .iap footer { padding-left: 32px !important; padding-right: 32px !important; }
+}
+@media (max-width: 768px) {
+  .iap section { padding-left: 20px !important; padding-right: 20px !important; }
+  .iap nav { padding-left: 20px !important; padding-right: 20px !important; gap: 12px !important; }
+  .iap footer { padding-left: 20px !important; padding-right: 20px !important; }
+  .iap h1 { font-size: 42px !important; }
+  .iap h2 { font-size: 36px !important; }
+  .resp-grid-2 { grid-template-columns: 1fr !important; }
+  .resp-grid-3 { grid-template-columns: 1fr !important; }
+  .resp-grid-5 { grid-template-columns: 1fr 1fr !important; }
+  .resp-grid-4 { grid-template-columns: 1fr 1fr !important; }
+  .resp-hero-stats { grid-template-columns: 1fr 1fr !important; }
+  .resp-nav-links { display: none !important; }
+  .resp-before-after { grid-template-columns: 1fr !important; }
+  .resp-before-after-arrow { transform: rotate(90deg) !important; }
+  .resp-faq-grid { grid-template-columns: 1fr !important; }
+  .resp-mentor-grid { grid-template-columns: 1fr !important; }
+  .resp-gallery { grid-template-columns: 1fr 1fr !important; }
+  .resp-gallery > * { grid-column: span 1 !important; grid-row: span 1 !important; }
+  .resp-comparison-header, .resp-comparison-row, .resp-comparison-footer { grid-template-columns: 1fr 1fr !important; }
+  .resp-comparison-freq { display: none !important; }
+  .resp-sticky-bar { padding: 6px 12px 6px 16px !important; gap: 12px !important; }
+  .resp-sticky-text { display: none !important; }
+}
+@media (max-width: 480px) {
+  .iap h1 { font-size: 32px !important; }
+  .iap h2 { font-size: 28px !important; }
+  .resp-grid-5 { grid-template-columns: 1fr !important; }
+  .resp-hero-tiles { display: none !important; }
+  .resp-countdown-grid { gap: 8px !important; }
+  .resp-countdown-grid > div { width: 72px !important; }
+  .resp-countdown-num { font-size: 36px !important; }
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+// ===== LOGO =====
+const LogoPipeline = ({ size = 48, mark = true }) => (
+  <div style={{ display: 'inline-flex', alignItems: 'center', gap: size * 0.28 }}>
+    {mark && (
+      <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+        <defs>
+          <linearGradient id="lg-pipe-grad" x1="0" y1="24" x2="48" y2="24">
+            <stop offset="0%" stopColor="#7B4FE0" />
+            <stop offset="100%" stopColor="#C8FF00" />
+          </linearGradient>
+        </defs>
+        <circle cx="8" cy="12" r="3" fill="#7B4FE0" />
+        <circle cx="8" cy="36" r="3" fill="#7B4FE0" />
+        <circle cx="40" cy="24" r="3" fill="#C8FF00" />
+        <path d="M11 12 Q24 12 24 24 Q24 36 11 36 M24 24 L37 24" stroke="url(#lg-pipe-grad)" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+        <circle cx="40" cy="24" r="6" fill="none" stroke="#C8FF00" strokeWidth="1" opacity="0.4"/>
+      </svg>
+    )}
+    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: size * 0.38, letterSpacing: '-0.02em', color: 'white' }}>
+      The AI <span style={{ background: 'linear-gradient(135deg,#7B4FE0,#C8FF00)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>Pipeline</span>
+    </span>
+  </div>
+);
+
+// ===== CINEMA PLACEHOLDER =====
+const CinemaPlaceholder = ({ tag = 'AI·CLIPE', tone = 'purple', children, style = {}, label }) => {
+  const tones = {
+    purple: 'radial-gradient(ellipse at 30% 20%, #7B4FE0 0%, #2A1B5C 40%, #05050F 100%)',
+    cyan: 'radial-gradient(ellipse at 70% 30%, #C8FF00 0%, #0A4A6B 40%, #05050F 100%)',
+    sunset: 'linear-gradient(135deg, #9D7AFF 0%, #7B4FE0 50%, #C8FF00 100%)',
+    moody: 'linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #05050F 100%)',
+    neon: 'radial-gradient(circle at 50% 80%, #C8FF00 0%, #7B4FE0 30%, #05050F 80%)',
+    flesh: 'radial-gradient(ellipse at 40% 40%, #d4a574 0%, #6b4226 50%, #1a0d05 100%)',
+  };
+  return (
+    <div style={{ position: 'relative', overflow: 'hidden', background: tones[tone] || tones.purple, ...style }}>
+      <div style={{ position: 'absolute', inset: 0, background: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")", opacity: 0.15, mixBlendMode: 'overlay' }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.6) 100%)' }} />
+      <div style={{ position: 'absolute', top: 8, left: 10, fontFamily: 'var(--font-mono)', fontSize: 9, color: 'rgba(255,255,255,0.7)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>● REC · {tag}</div>
+      {label && <div style={{ position: 'absolute', bottom: 8, left: 10, fontFamily: 'var(--font-mono)', fontSize: 9, color: 'rgba(255,255,255,0.5)' }}>{label}</div>}
+      {children}
+    </div>
+  );
+};
+
+// ===== LANDING PRO (ALL COMPONENTS) =====
+const WAITLIST_URL = "/lista-de-espera";
+const DISCORD_URL = "https://discord.gg/ppFqh3Z7n";
+
+const CtaPrimary = ({ children, size = 'md', href = WAITLIST_URL, full = false, ...rest }) => {
+  const sizes = { sm: { p: '12px 22px', f: 13 }, md: { p: '16px 32px', f: 14 }, lg: { p: '20px 40px', f: 16 }, xl: { p: '24px 48px', f: 18 } };
+  const s = sizes[size];
+  return (
+    <a href={href} style={{
+      display: 'inline-flex', alignItems: 'center', gap: 10,
+      padding: s.p, background: 'var(--grad)', color: '#fff',
+      fontSize: s.f, fontWeight: 700, fontFamily: 'var(--font-display)',
+      textDecoration: 'none', borderRadius: 100, textTransform: 'uppercase', letterSpacing: '0.05em',
+      boxShadow: '0 0 40px rgba(123,79,224,0.4), inset 0 1px 0 rgba(255,255,255,0.2)',
+      width: full ? '100%' : 'auto', justifyContent: 'center',
+      transition: 'transform .2s', cursor: 'pointer', ...rest.style,
+    }} onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)'}
+       onMouseLeave={e => e.currentTarget.style.transform = ''}>
+      {children} <span>→</span>
+    </a>
+  );
+};
+
+const CtaGhost = ({ children, href = DISCORD_URL, size = 'md' }) => {
+  const sizes = { sm: { p: '12px 22px', f: 13 }, md: { p: '16px 32px', f: 14 }, lg: { p: '20px 40px', f: 16 } };
+  const s = sizes[size];
+  return (
+    <a href={href} target="_blank" rel="noopener" style={{
+      display: 'inline-flex', alignItems: 'center', gap: 10,
+      padding: s.p, background: 'transparent', color: 'var(--text-1)',
+      fontSize: s.f, fontWeight: 600, fontFamily: 'var(--font-display)',
+      textDecoration: 'none', borderRadius: 100, border: '1px solid rgba(255,255,255,0.18)',
+      letterSpacing: '0.02em',
+    }}>{children}</a>
+  );
+};
+
+const Pill = ({ children, color = 'cyan' }) => (
+  <span style={{
+    display: 'inline-flex', alignItems: 'center', gap: 6,
+    padding: '6px 12px', background: color === 'lime' ? 'rgba(200,255,0,0.1)' : 'rgba(123,79,224,0.12)',
+    border: `1px solid ${color === 'lime' ? 'rgba(200,255,0,0.3)' : 'rgba(123,79,224,0.3)'}`,
+    borderRadius: 100, fontSize: 11, fontFamily: 'var(--font-mono)', letterSpacing: '0.1em',
+    color: color === 'lime' ? 'var(--cyan)' : '#9d8aff', textTransform: 'uppercase',
+  }}>
+    <span style={{ width: 6, height: 6, borderRadius: '50%', background: color === 'lime' ? 'var(--cyan)' : 'var(--purple)', boxShadow: `0 0 8px ${color === 'lime' ? 'var(--cyan)' : 'var(--purple)'}` }} />
+    {children}
+  </span>
+);
+
+const Overline = ({ children, color = 'cyan' }) => (
+  <div className="mono" style={{
+    fontSize: 11, color: color === 'lime' ? 'var(--cyan)' : '#9d8aff',
+    letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 600,
+  }}>{children}</div>
+);
+
+const SectionWrap = ({ children, bg = '#05050F', overflow = 'hidden', style = {}, padding = '120px 64px', className = '' }) => (
+  <section className={className} style={{ position: 'relative', background: bg, padding, overflow, ...style }}>
+    <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative' }}>{children}</div>
+  </section>
+);
+
+// ===== NAVBAR =====
+const Navbar = () => {
+  const [scrolled, setScrolled] = React.useState(false);
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return (
+    <nav style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+      padding: '16px 64px', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      background: scrolled ? 'rgba(5,5,15,0.92)' : 'rgba(5,5,7,0.6)',
+      backdropFilter: 'blur(12px)',
+      borderBottom: '1px solid var(--line)',
+      transition: 'background .3s, padding .3s',
+    }}>
+      <LogoPipeline size={28} />
+      <div className="resp-nav-links" style={{ display: 'flex', gap: 32, fontSize: 13, color: 'var(--text-2)' }}>
+        {['Módulos','Pra quem é','Investimento','FAQ'].map(l => (
+          <a key={l} href={`#${l.toLowerCase().replace(/ /g,'-')}`} style={{ color: 'inherit', textDecoration: 'none', transition: 'color .2s' }}
+             onMouseEnter={e => e.currentTarget.style.color = '#fff'}
+             onMouseLeave={e => e.currentTarget.style.color = ''}>{l}</a>
+        ))}
+      </div>
+      <CtaPrimary size="sm">Lista de espera</CtaPrimary>
+    </nav>
+  );
+};
+
+// ===== HERO =====
+const Hero = () => (
+  <section style={{ position: 'relative', minHeight: '100vh', padding: '140px 64px 80px', background: '#05050F', overflow: 'hidden' }}>
+    <div className="iap-mesh-bg" style={{ position: 'absolute', inset: 0 }} />
+    <div className="iap-noise" />
+    <div className="iap-hairgrid" style={{ position: 'absolute', inset: 0, opacity: 0.4 }} />
+
+    <div className="resp-hero-tiles" style={{ position: 'absolute', right: -40, top: 140, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, transform: 'rotate(-6deg)', opacity: 0.85, zIndex: 1 }}>
+      <CinemaPlaceholder tone="sunset" tag="VIDEO·001" style={{ width: 200, height: 280, borderRadius: 12 }} />
+      <CinemaPlaceholder tone="purple" tag="IMG·047" style={{ width: 200, height: 280, borderRadius: 12, marginTop: 40 }} />
+      <CinemaPlaceholder tone="cyan" tag="MUSIC·12" style={{ width: 200, height: 280, borderRadius: 12 }} />
+      <CinemaPlaceholder tone="neon" tag="AUTO·05" style={{ width: 200, height: 280, borderRadius: 12, marginTop: 40 }} />
+    </div>
+
+    <div style={{ position: 'relative', maxWidth: 820, zIndex: 2 }}>
+      <div className="anim-reveal" style={{ marginBottom: 28 }}>
+        <Pill color="lime">● Mentoria Turma 01 · 30 vagas · Início 11.05</Pill>
+      </div>
+      <h1 className="anim-reveal" style={{
+        fontSize: 88, lineHeight: 0.95, letterSpacing: '-0.04em',
+        marginBottom: 28, fontFamily: 'var(--font-display)', fontWeight: 700,
+      }}>
+        Domine a produção<br />com <span className="iap-grad-text">AI</span> em <span style={{ position: 'relative', display: 'inline-block' }}>
+          <span style={{ position: 'absolute', inset: -6, background: 'var(--grad)', filter: 'blur(30px)', opacity: 0.5, zIndex: -1 }} />
+          4 semanas.
+        </span>
+      </h1>
+      <p className="anim-reveal" style={{ fontSize: 20, lineHeight: 1.55, color: 'var(--text-2)', maxWidth: 640, marginBottom: 36 }}>
+        Aprenda a criar imagens cinematográficas, vídeos, músicas e automações com as ferramentas mais avançadas de AI. <strong style={{ color: '#fff' }}>Cada aula = um asset pronto no portfolio.</strong>
+      </p>
+      <div className="anim-reveal" style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap', marginBottom: 48 }}>
+        <CtaPrimary size="lg">Entrar na lista de espera</CtaPrimary>
+        <CtaGhost>Discord (grátis)</CtaGhost>
+      </div>
+
+      <div className="anim-reveal resp-hero-stats" style={{
+        display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0,
+        background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(20px)',
+        border: '1px solid var(--line)', borderRadius: 16, padding: 4,
+      }}>
+        {[
+          { v: '30', l: 'vagas na turma' },
+          { v: '4', l: 'semanas' },
+          { v: '10', l: 'aulas gravadas' },
+          { v: '2x', l: 'mentoria/semana' },
+        ].map((s, i) => (
+          <div key={s.l} style={{
+            padding: '20px 24px', borderRight: i < 3 ? '1px solid var(--line)' : 'none',
+            display: 'flex', flexDirection: 'column', gap: 4,
+          }}>
+            <div className="iap-grad-text" style={{ fontSize: 32, fontWeight: 700, fontFamily: 'var(--font-display)' }}>{s.v}</div>
+            <div className="mono" style={{ fontSize: 10, color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{s.l}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+// ===== TICKER =====
+const ToolsTicker = () => {
+  const tools = ['FREEPIK SPACE','✦','FLUX','✦','MYSTIC','✦','KLING 2.6','✦','VEO','✦','SUNO V4','✦','UDIO','✦','MAKE','✦','N8N','✦','BREVO','✦'];
+  return (
+    <div style={{
+      background: '#0A0A12', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)',
+      padding: '20px 0', overflow: 'hidden', position: 'relative',
+    }}>
+      <div className="ticker-track mono" style={{
+        display: 'flex', gap: 48, fontSize: 14, color: 'var(--text-3)',
+        letterSpacing: '0.15em', whiteSpace: 'nowrap', width: 'max-content',
+      }}>
+        {[...tools, ...tools, ...tools, ...tools].map((t, i) => (
+          <span key={i} style={{ color: t === '✦' ? 'var(--cyan)' : 'var(--text-2)', fontWeight: t === '✦' ? 400 : 600 }}>{t}</span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// ===== PROBLEMA =====
+const Problema = () => (
+  <SectionWrap bg="#05050F">
+    <Overline color="purple">// O Problema</Overline>
+    <h2 className="anim-reveal" style={{ fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em', marginTop: 16, marginBottom: 24, maxWidth: 800 }}>
+      A maioria não sabe<br />por onde começar.
+    </h2>
+    <p className="anim-reveal" style={{ fontSize: 18, color: 'var(--text-2)', lineHeight: 1.6, maxWidth: 720, marginBottom: 16 }}>
+      Toda semana surge uma ferramenta nova de AI. Um modelo novo. Um hype novo. Você testa o ChatGPT, brinca com o Midjourney, vê um vídeo no YouTube... mas nunca monta um fluxo real de produção.
+    </p>
+    <p className="anim-reveal" style={{ fontSize: 18, color: 'var(--text-2)', lineHeight: 1.6, maxWidth: 720, marginBottom: 56 }}>
+      O resultado? Você fica rodando em círculos. Sabe que IA é poderoso, mas não consegue transformar isso em algo concreto — nem pra projetos pessoais, nem pra vender como serviço.
+    </p>
+    <div className="resp-grid-3 stagger-children" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+      {[
+        { i: '◉', t: 'Ferramentas demais, direção de menos', d: 'Centenas de opções e nenhum pipeline claro do começo ao fim.' },
+        { i: '◷', t: 'Tempo perdido com tentativa e erro', d: 'Horas testando prompts genéricos que nunca chegam no resultado profissional.' },
+        { i: '◌', t: 'Conhecimento fragmentado', d: 'Tutoriais soltos no YouTube que nunca conectam imagem + vídeo + música + automação.' },
+      ].map((p, idx) => (
+        <div key={p.t} className="anim-scale" style={{ '--i': idx, padding: 28, background: 'rgba(255,255,255,0.02)', border: '1px solid var(--line)', borderRadius: 12 }}>
+          <div style={{ fontSize: 28, color: 'var(--purple)', marginBottom: 12 }}>{p.i}</div>
+          <h3 style={{ fontSize: 17, marginBottom: 8, letterSpacing: '-0.01em' }}>{p.t}</h3>
+          <p style={{ fontSize: 14, color: 'var(--text-3)', lineHeight: 1.5 }}>{p.d}</p>
+        </div>
+      ))}
+    </div>
+  </SectionWrap>
+);
+
+// ===== SOLUÇÃO =====
+const Solucao = () => (
+  <SectionWrap bg="linear-gradient(180deg,#05050F 0%,#0A0A12 100%)">
+    <Overline color="lime">// A Solução</Overline>
+    <h2 className="anim-reveal" style={{ fontSize: 64, lineHeight: 1, letterSpacing: '-0.03em', marginTop: 16, marginBottom: 24, maxWidth: 900 }}>
+      Um <span className="iap-grad-text">pipeline completo.</span><br />Do zero ao asset publicado.
+    </h2>
+    <p className="anim-reveal" style={{ fontSize: 18, color: 'var(--text-2)', lineHeight: 1.6, maxWidth: 720, marginBottom: 64 }}>
+      The AI Pipeline é uma mentoria intensiva de 4 semanas onde você aprende, na prática, o fluxo completo de produção com AI. <strong style={{ color: '#fff' }}>Não é teoria. Não é webinar. Não é curso genérico.</strong> Cada aula tem entrega — você sai com asset pronto.
+    </p>
+    <div className="resp-before-after" style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 24, alignItems: 'stretch' }}>
+      <div className="anim-reveal-left" style={{ padding: 32, border: '1px solid #2a2a35', borderRadius: 16, background: '#0a0a10' }}>
+        <div className="mono" style={{ fontSize: 11, color: 'var(--text-3)', letterSpacing: '0.2em', marginBottom: 20 }}>SEM O PIPELINE</div>
+        {['Testa ferramentas aleatórias','Resultados genéricos e amadores','Não sabe monetizar','Depende de terceiros pra produzir'].map(i => (
+          <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start', marginBottom: 14, color: 'var(--text-3)', fontSize: 15 }}>
+            <span style={{ color: '#FF5252', fontSize: 16 }}>✕</span>
+            <span style={{ textDecoration: 'line-through', textDecorationColor: 'rgba(255,82,82,0.4)' }}>{i}</span>
+          </div>
+        ))}
+      </div>
+      <div className="resp-before-after-arrow" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 60 }}>
+        <div className="anim-scale" style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--grad)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 30px rgba(123,79,224,0.5)' }}>→</div>
+      </div>
+      <div className="anim-reveal-right" style={{ padding: 32, borderRadius: 16, background: 'linear-gradient(180deg,#1a1a24 0%,#0f0f1a 100%)', border: '1px solid rgba(123,79,224,0.4)', boxShadow: '0 0 60px rgba(123,79,224,0.15)', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: -50, right: -50, width: 200, height: 200, background: 'radial-gradient(circle,rgba(200,255,0,0.3),transparent 70%)' }} />
+        <div className="mono" style={{ fontSize: 11, color: 'var(--cyan)', letterSpacing: '0.2em', marginBottom: 20, position: 'relative' }}>COM O PIPELINE</div>
+        {['Fluxo definido do conceito ao output','Resultados cinematográficos profissionais','Habilidades vendáveis como serviço','Autonomia total de produção'].map(i => (
+          <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start', marginBottom: 14, color: '#fff', fontSize: 15, fontWeight: 500, position: 'relative' }}>
+            <span style={{ color: 'var(--cyan)', fontSize: 16 }}>✓</span>
+            <span>{i}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </SectionWrap>
+);
+
+// ===== MÓDULOS =====
+const Modulos = () => {
+  const mods = [
+    { n: '01', icon: '◐', t: 'Imagem', sub: 'Geração visual cinematográfica', tools: ['Freepik Space','Flux','Mystic'], skills: ['Prompting avançado para imagens profissionais','Character sheets e consistência visual','Key visuals, thumbnails e product shots','Composição, lighting e direção de arte'], deliv: 'Portfolio de 5+ imagens cinematográficas', color: '#7B4FE0', tone: 'purple' },
+    { n: '02', icon: '▶', t: 'Vídeo', sub: 'Produção de vídeo e clipes com AI', tools: ['Kling 2.6','VEO'], skills: ['Image-to-video com controle de câmera','Clipes narrativos multi-ato','Aftermovies, promos e shorts virais','Continuidade visual e scene tracking'], deliv: '1 clipe ou short completo publicável', color: '#C8FF00', tone: 'sunset' },
+    { n: '03', icon: '♪', t: 'Música', sub: 'Composição e produção musical', tools: ['Suno V4','Udio'], skills: ['Composição de beat, melodia e vocal','Controle de estilo, BPM e estrutura','Mixagem e finalização','Publicação em plataformas de streaming'], deliv: '1 música original publicada', color: '#9D7AFF', tone: 'neon' },
+    { n: '04', icon: '⚡', t: 'Automação + Negócio', sub: 'Pipeline automatizado e monetização', tools: ['Make','n8n','Brevo'], skills: ['Automação de workflows com Make/n8n','Email marketing e funis com Brevo','Bots e integrações no Discord','Precificação e venda de serviços com IA'], deliv: '1 automação funcional + plano de monetização', color: '#C8FF00', tone: 'cyan' },
+  ];
+  return (
+    <SectionWrap bg="#0A0A12" style={{ scrollMarginTop: 80 }}>
+      <div id="módulos" style={{ position: 'absolute', top: -80 }} />
+      <Overline color="purple">// O Currículo</Overline>
+      <h2 className="anim-reveal" style={{ fontSize: 64, lineHeight: 1, letterSpacing: '-0.03em', marginTop: 16, marginBottom: 16 }}>
+        4 semanas. 4 pilares.<br /><span className="iap-grad-text">Pipeline completo.</span>
+      </h2>
+      <p className="anim-reveal" style={{ fontSize: 18, color: 'var(--text-2)', maxWidth: 640, marginBottom: 56 }}>
+        Cada semana foca num pilar de produção. No final, você domina o ciclo inteiro.
+      </p>
+      <div className="resp-grid-2 stagger-children" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+        {mods.map((m, idx) => (
+          <div key={m.n} className="anim-scale" style={{ '--i': idx, padding: 36, background: '#0f0f17', borderRadius: 16, border: '1px solid var(--line)', position: 'relative', overflow: 'hidden' }}>
+            <CinemaPlaceholder tone={m.tone} tag={`SEMANA·${m.n}`} style={{ position: 'absolute', top: -40, right: -40, width: 220, height: 220, opacity: 0.25, filter: 'blur(30px)' }} />
+            <div style={{ position: 'relative' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24 }}>
+                <div style={{ width: 56, height: 56, borderRadius: 12, background: `linear-gradient(135deg,${m.color}33,${m.color}11)`, border: `1px solid ${m.color}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, color: m.color }}>{m.icon}</div>
+                <div className="mono" style={{ fontSize: 11, padding: '4px 10px', background: `${m.color}22`, color: m.color, borderRadius: 100, letterSpacing: '0.1em' }}>SEMANA {m.n}</div>
+              </div>
+              <h3 style={{ fontSize: 36, letterSpacing: '-0.02em', marginBottom: 6 }}>{m.t}</h3>
+              <p style={{ fontSize: 14, color: 'var(--text-3)', marginBottom: 20 }}>{m.sub}</p>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 20 }}>
+                {m.tools.map(t => (
+                  <span key={t} className="mono" style={{ fontSize: 10, padding: '4px 10px', background: 'rgba(255,255,255,0.06)', border: '1px solid var(--line)', borderRadius: 100, letterSpacing: '0.05em' }}>{t}</span>
+                ))}
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 24 }}>
+                {m.skills.map(s => (
+                  <div key={s} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 13.5, color: 'var(--text-2)' }}>
+                    <span style={{ color: m.color, marginTop: 2 }}>▸</span>{s}
+                  </div>
+                ))}
+              </div>
+              <div style={{ paddingTop: 16, borderTop: '1px solid var(--line)' }}>
+                <div className="mono" style={{ fontSize: 10, color: 'var(--text-3)', letterSpacing: '0.15em', marginBottom: 4 }}>ENTREGA DA SEMANA</div>
+                <div style={{ fontSize: 14, fontWeight: 600 }}>✓ {m.deliv}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="anim-reveal" style={{ marginTop: 56, textAlign: 'center' }}>
+        <CtaPrimary size="lg">Quero esse pipeline</CtaPrimary>
+      </div>
+    </SectionWrap>
+  );
+};
+
+// ===== INCLUSO =====
+const Incluso = () => {
+  const features = [
+    { i: '▶', t: '10 aulas gravadas', d: 'Conteúdo denso e direto. Acesso vitalício — reveja quando quiser.', h: 'Acesso vitalício' },
+    { i: '◉', t: 'Mentorias ao vivo 2x/semana', d: 'Sessões no Discord com feedback individual e tira-dúvidas.', h: 'Feedback individual' },
+    { i: '◈', t: 'Comunidade exclusiva', d: 'Discord privado com networking entre alunos e oportunidades.', h: 'Networking permanente' },
+    { i: '⌘', t: 'Templates e prompts prontos', d: 'Biblioteca de prompts testados e templates de workflow.', h: 'Copy-paste ready' },
+    { i: '◌', t: 'Suporte contínuo', d: 'Suporte durante a mentoria e acesso à comunidade após.', h: 'Não acaba em 4 semanas' },
+    { i: '✓', t: 'Certificado de conclusão', d: 'Certificado digital pra comprovar suas novas habilidades.', h: 'Comprove suas skills' },
+  ];
+  return (
+    <SectionWrap bg="#05050F">
+      <Overline color="lime">// O Pacote Completo</Overline>
+      <h2 className="anim-reveal" style={{ fontSize: 64, lineHeight: 1, letterSpacing: '-0.03em', marginTop: 16, marginBottom: 56 }}>
+        Tudo que você recebe.
+      </h2>
+      <div className="resp-grid-3 stagger-children" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+        {features.map((f, idx) => (
+          <div key={f.t} className="anim-scale" style={{ '--i': idx, padding: 28, background: '#0f0f17', borderRadius: 12, border: '1px solid var(--line)' }}>
+            <div style={{ width: 44, height: 44, borderRadius: 10, background: 'rgba(200,255,0,0.1)', border: '1px solid rgba(200,255,0,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, color: 'var(--cyan)', marginBottom: 16 }}>{f.i}</div>
+            <h3 style={{ fontSize: 18, letterSpacing: '-0.01em', marginBottom: 8 }}>{f.t}</h3>
+            <p style={{ fontSize: 13.5, color: 'var(--text-3)', lineHeight: 1.5, marginBottom: 12 }}>{f.d}</p>
+            <div className="mono" style={{ fontSize: 10, color: 'var(--cyan)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>+ {f.h}</div>
+          </div>
+        ))}
+      </div>
+    </SectionWrap>
+  );
+};
+
+// ===== PARA QUEM =====
+const ParaQuem = () => (
+  <SectionWrap bg="#0A0A12" style={{ scrollMarginTop: 80 }}>
+    <div id="pra-quem-é" style={{ position: 'absolute', top: -80 }} />
+    <Overline color="purple">// Pra Quem É</Overline>
+    <h2 className="anim-reveal" style={{ fontSize: 64, lineHeight: 1, letterSpacing: '-0.03em', marginTop: 16, marginBottom: 56 }}>
+      Essa mentoria é pra você se...
+    </h2>
+    <div className="resp-grid-5 stagger-children" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 12, marginBottom: 60 }}>
+      {[
+        { e: '◐', t: 'Criador de Conteúdo', d: 'Quer escalar produção sem depender de equipe.' },
+        { e: '♪', t: 'Músico / Produtor', d: 'Quer explorar AI na composição e produção.' },
+        { e: '▶', t: 'Videomaker / Designer', d: 'Quer integrar AI no workflow e entregar mais rápido.' },
+        { e: '◈', t: 'Empreendedor', d: 'Quer oferecer serviços de produção com AI.' },
+        { e: '⚡', t: 'Curioso Ambicioso', d: 'Sem experiência mas quer dominar AI na prática.' },
+      ].map((p, idx) => (
+        <div key={p.t} className="anim-scale" style={{ '--i': idx, padding: 24, background: '#0f0f17', borderRadius: 12, border: '1px solid var(--line)' }}>
+          <div className="iap-grad-text" style={{ fontSize: 32, marginBottom: 14 }}>{p.e}</div>
+          <h3 style={{ fontSize: 15, letterSpacing: '-0.01em', marginBottom: 8 }}>{p.t}</h3>
+          <p style={{ fontSize: 13, color: 'var(--text-3)', lineHeight: 1.5 }}>{p.d}</p>
+        </div>
+      ))}
+    </div>
+    <div className="anim-reveal" style={{ padding: 32, background: 'rgba(255,82,82,0.04)', border: '1px solid rgba(255,82,82,0.15)', borderRadius: 12 }}>
+      <Overline color="purple"><span style={{ color: '#FF5252' }}>// Não é pra você se...</span></Overline>
+      <div style={{ display: 'flex', gap: 24, marginTop: 16, flexWrap: 'wrap' }}>
+        {['Quer só assistir e não botar a mão na massa','Espera resultado mágico sem esforço','Não tem 4-6h por semana pra dedicar'].map(i => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: 'var(--text-2)' }}>
+            <span style={{ color: '#FF5252' }}>✕</span>{i}
+          </div>
+        ))}
+      </div>
+    </div>
+  </SectionWrap>
+);
+
+// ===== RESULTADOS =====
+const Resultados = () => (
+  <SectionWrap bg="#05050F">
+    <Overline color="lime">// Resultados Reais</Overline>
+    <h2 className="anim-reveal" style={{ fontSize: 64, lineHeight: 1, letterSpacing: '-0.03em', marginTop: 16, marginBottom: 56 }}>
+      O que você vai criar.
+    </h2>
+    <div className="resp-gallery" style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gridAutoRows: 200, gap: 12 }}>
+      <CinemaPlaceholder tone="sunset" tag="KEY·VISUAL" label="Freepik Space + Flux" style={{ gridColumn: 'span 2', gridRow: 'span 2', borderRadius: 12 }} />
+      <CinemaPlaceholder tone="cyan" tag="CLIPE·002" label="Kling 2.6" style={{ gridColumn: 'span 2', borderRadius: 12 }} />
+      <CinemaPlaceholder tone="purple" tag="PRODUCT·SHOT" label="Mystic" style={{ gridColumn: 'span 2', borderRadius: 12 }} />
+      <CinemaPlaceholder tone="neon" tag="MUSIC·BEAT" label="Suno V4" style={{ gridColumn: 'span 2', borderRadius: 12 }}>
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: 14, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--cyan)' }} />
+          <div style={{ flex: 1, height: 4, background: 'rgba(255,255,255,0.2)', borderRadius: 2 }}><div style={{ width: '40%', height: '100%', background: 'var(--cyan)', borderRadius: 2 }} /></div>
+        </div>
+      </CinemaPlaceholder>
+      <CinemaPlaceholder tone="moody" tag="CHAR·SHEET" label="Flux" style={{ gridColumn: 'span 2', borderRadius: 12 }} />
+    </div>
+  </SectionWrap>
+);
+
+// ===== COMPARAÇÃO =====
+const Comparacao = () => {
+  const items = [
+    { s: 'Fotógrafo profissional', p: 'a partir R$ 1.500', n: 'por sessão' },
+    { s: 'Editor de vídeo (1 clipe)', p: 'a partir R$ 2.000', n: 'por projeto' },
+    { s: 'Produtor musical', p: 'a partir R$ 3.000', n: 'por música' },
+    { s: 'Designer de campanha', p: 'a partir R$ 2.500', n: 'por campanha' },
+    { s: 'Automação customizada', p: 'a partir R$ 2.000', n: 'por setup' },
+  ];
+  return (
+    <SectionWrap bg="#0A0A12">
+      <Overline color="purple">// Perspectiva</Overline>
+      <h2 className="anim-reveal" style={{ fontSize: 64, lineHeight: 1, letterSpacing: '-0.03em', marginTop: 16, marginBottom: 56 }}>
+        Quanto custaria <span className="iap-grad-text">sem IA?</span>
+      </h2>
+      <div className="anim-reveal" style={{ background: '#0f0f17', borderRadius: 16, border: '1px solid var(--line)', overflow: 'hidden' }}>
+        <div className="resp-comparison-header" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', padding: '16px 28px', background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid var(--line)' }}>
+          {['Serviço','Sem IA','Com Pipeline'].map(h => (
+            <div key={h} className="mono" style={{ fontSize: 11, color: 'var(--text-3)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>{h}</div>
+          ))}
+          <div className="mono resp-comparison-freq" style={{ fontSize: 11, color: 'var(--text-3)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>Frequência</div>
+        </div>
+        {items.map(it => (
+          <div key={it.s} className="resp-comparison-row" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', padding: '20px 28px', borderBottom: '1px solid var(--line)', alignItems: 'center' }}>
+            <div style={{ fontSize: 16, fontWeight: 500 }}>{it.s}</div>
+            <div style={{ fontSize: 16, color: '#FF5252', textDecoration: 'line-through', textDecorationColor: 'rgba(255,82,82,0.4)' }}>{it.p}</div>
+            <div className="iap-grad-text" style={{ fontSize: 18, fontWeight: 700, fontFamily: 'var(--font-display)' }}>R$ 0</div>
+            <div className="mono resp-comparison-freq" style={{ fontSize: 12, color: 'var(--text-3)' }}>{it.n}</div>
+          </div>
+        ))}
+        <div className="resp-comparison-footer" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', padding: '24px 28px', background: 'rgba(123,79,224,0.06)', alignItems: 'center' }}>
+          <div style={{ fontSize: 18, fontWeight: 700 }}>Total estimado</div>
+          <div style={{ fontSize: 22, color: '#FF5252', fontWeight: 700, fontFamily: 'var(--font-display)' }}>R$ 11.000+</div>
+          <div className="iap-grad-text" style={{ fontSize: 24, fontWeight: 700, fontFamily: 'var(--font-display)' }}>Em 12x no cartão</div>
+          <div className="mono resp-comparison-freq" style={{ fontSize: 11, color: 'var(--cyan)' }}>VOCÊ APRENDE TUDO</div>
+        </div>
+      </div>
+      <p className="anim-reveal" style={{ marginTop: 28, fontSize: 16, color: 'var(--text-2)', textAlign: 'center', maxWidth: 720, marginInline: 'auto' }}>
+        Você aprende a fazer <strong style={{ color: '#fff' }}>tudo isso sozinho</strong> por uma fração do custo. E pode vender como serviço depois.
+      </p>
+      <div className="anim-reveal" style={{ marginTop: 32, textAlign: 'center' }}>
+        <CtaPrimary size="lg">Quero economizar e aprender</CtaPrimary>
+      </div>
+    </SectionWrap>
+  );
+};
+
+// ===== PRICING =====
+const Pricing = () => (
+  <SectionWrap bg="#05050F" style={{ scrollMarginTop: 80 }}>
+    <div id="investimento" style={{ position: 'absolute', top: -80 }} />
+    <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 0%, rgba(123,79,224,0.15) 0%, transparent 60%)', pointerEvents: 'none' }} />
+    <div style={{ textAlign: 'center', position: 'relative' }}>
+      <Overline color="lime">// Investimento</Overline>
+      <h2 className="anim-reveal" style={{ fontSize: 64, lineHeight: 1, letterSpacing: '-0.03em', marginTop: 16, marginBottom: 16 }}>
+        Uma decisão.<br />4 semanas. <span className="iap-grad-text">Skills pra vida.</span>
+      </h2>
+    </div>
+    <div className="anim-scale" style={{ marginTop: 56, maxWidth: 540, marginInline: 'auto', padding: 4, borderRadius: 20, background: 'var(--grad)', boxShadow: '0 0 80px rgba(123,79,224,0.3)' }}>
+      <div style={{ background: '#0a0a14', borderRadius: 18, padding: '40px 36px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: -50, right: -50, width: 200, height: 200, background: 'radial-gradient(circle,rgba(200,255,0,0.2),transparent 70%)' }} />
+        <div style={{ position: 'relative' }}>
+          <Pill color="lime">TURMA 01 · 30 VAGAS</Pill>
+          <h3 style={{ fontSize: 32, marginTop: 20, letterSpacing: '-0.02em' }}>The AI Pipeline</h3>
+          <p style={{ fontSize: 14, color: 'var(--text-3)', marginBottom: 24 }}>Mentoria Exclusiva</p>
+          <div style={{ marginBottom: 28 }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+              <span className="iap-grad-text" style={{ fontSize: 56, fontWeight: 700, fontFamily: 'var(--font-display)', letterSpacing: '-0.03em' }}>Em 12x</span>
+            </div>
+            <div className="mono" style={{ fontSize: 12, color: 'var(--text-3)', marginTop: 4 }}>NO CARTÃO DE CRÉDITO · VIA KIWIFY</div>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 28 }}>
+            {['10 aulas gravadas (acesso vitalício)','Mentorias ao vivo 2x/semana','Comunidade exclusiva no Discord','Templates e prompts profissionais','Suporte contínuo','Certificado de conclusão'].map(i => (
+              <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'center', fontSize: 14 }}>
+                <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--grad)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 11, color: '#05050F', fontWeight: 700 }}>✓</div>
+                {i}
+              </div>
+            ))}
+          </div>
+          <CtaPrimary size="lg" full>Garantir minha vaga</CtaPrimary>
+          <div style={{ marginTop: 20, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontSize: 12, color: 'var(--text-3)' }}>
+            <span>🛡</span> Garantia incondicional de 7 dias. Não curtiu? Devolvemos 100%.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div className="anim-reveal" style={{ marginTop: 32, textAlign: 'center' }}>
+      <div className="mono" style={{ fontSize: 12, color: 'var(--cyan)', letterSpacing: '0.2em', marginBottom: 12 }}>● APENAS 30 VAGAS DISPONÍVEIS</div>
+      <div style={{ maxWidth: 400, marginInline: 'auto', height: 4, background: 'rgba(255,255,255,0.08)', borderRadius: 2, overflow: 'hidden' }}>
+        <div style={{ width: '60%', height: '100%', background: 'var(--grad)' }} />
+      </div>
+      <div className="mono" style={{ fontSize: 11, color: 'var(--text-3)', marginTop: 8 }}>Vagas limitadas · 30 alunos por turma</div>
+    </div>
+  </SectionWrap>
+);
+
+// ===== COUNTDOWN =====
+const Countdown = () => {
+  const [t, setT] = React.useState({ d: 0, h: 0, m: 0, s: 0 });
+  React.useEffect(() => {
+    const target = new Date('2026-05-11T00:00:00-03:00').getTime();
+    const tick = () => {
+      const now = Date.now();
+      const diff = Math.max(0, target - now);
+      setT({
+        d: Math.floor(diff / 86400000),
+        h: Math.floor((diff % 86400000) / 3600000),
+        m: Math.floor((diff % 3600000) / 60000),
+        s: Math.floor((diff % 60000) / 1000),
+      });
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <SectionWrap bg="linear-gradient(135deg, rgba(123,79,224,0.15), rgba(200,255,0,0.08))" padding="80px 64px">
+      <div style={{ textAlign: 'center' }}>
+        <Overline color="lime">// Início da turma</Overline>
+        <h3 className="anim-reveal" style={{ fontSize: 36, marginTop: 12, marginBottom: 36, letterSpacing: '-0.02em' }}>A mentoria começa em</h3>
+        <div className="resp-countdown-grid" style={{ display: 'flex', gap: 16, justifyContent: 'center', marginBottom: 32 }}>
+          {[{ v: t.d, l: 'DIAS' }, { v: t.h, l: 'HORAS' }, { v: t.m, l: 'MINUTOS' }, { v: t.s, l: 'SEGUNDOS' }].map(it => (
+            <div key={it.l} style={{ width: 120, padding: '20px 16px', background: 'rgba(10,10,15,0.6)', backdropFilter: 'blur(20px)', border: '1px solid var(--line)', borderRadius: 12 }}>
+              <div className="iap-grad-text resp-countdown-num" style={{ fontSize: 56, fontWeight: 700, fontFamily: 'var(--font-display)', lineHeight: 1, letterSpacing: '-0.03em' }}>{String(it.v).padStart(2, '0')}</div>
+              <div className="mono" style={{ fontSize: 10, color: 'var(--text-3)', marginTop: 6, letterSpacing: '0.2em' }}>{it.l}</div>
+            </div>
+          ))}
+        </div>
+        <CtaPrimary size="lg">Entrar agora</CtaPrimary>
+      </div>
+    </SectionWrap>
+  );
+};
+
+// ===== MENTOR =====
+const Mentor = () => (
+  <SectionWrap bg="#0A0A12">
+    <div className="resp-mentor-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 60, alignItems: 'center' }}>
+      <div className="anim-reveal-left" style={{ position: 'relative' }}>
+        <div style={{ position: 'absolute', inset: -20, background: 'var(--grad)', filter: 'blur(40px)', opacity: 0.4, borderRadius: '50%' }} />
+        <div style={{ position: 'relative', aspectRatio: '4/5', borderRadius: 16, overflow: 'hidden', border: '2px solid rgba(123,79,224,0.3)', background: '#000' }}>
+          <img src="caio.png" alt="Caio Monteiro" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} loading="lazy" />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 50%, rgba(10,10,15,0.6) 100%)', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', bottom: 20, left: 20, right: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', fontFamily: 'var(--font-mono)', fontSize: 10, color: 'rgba(255,255,255,0.7)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+            <span>● MENTOR</span>
+            <span>@caaiomonteiiro_</span>
+          </div>
+        </div>
+      </div>
+      <div className="anim-reveal-right">
+        <Overline color="purple">// Seu Mentor</Overline>
+        <h2 style={{ fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em', marginTop: 16, marginBottom: 24 }}>
+          Caio Monteiro.
+        </h2>
+        <p style={{ fontSize: 17, color: 'var(--text-2)', lineHeight: 1.6, marginBottom: 24 }}>
+          Diretor de cinema, AI Director e Prompt Engineer. Trabalha na interseção entre cinema, criatividade e tecnologia — direcionando produções com inteligência artificial e ajudando criadores a dominar pipelines completos de imagem, vídeo, música e automação.
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {['Diretor de cinema com background em produção audiovisual','Pipeline proprietário de produção com AI','Especialista em Freepik, Kling, Suno e automação','Comunidade ativa de criadores no Discord'].map(c => (
+            <div key={c} style={{ display: 'flex', gap: 12, alignItems: 'center', fontSize: 15 }}>
+              <span style={{ color: 'var(--cyan)' }}>▸</span>{c}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </SectionWrap>
+);
+
+// ===== FAQ =====
+const FaqItem = ({ q, a, defaultOpen = false }) => {
+  const [open, setOpen] = React.useState(defaultOpen);
+  return (
+    <div style={{ borderBottom: '1px solid var(--line)' }}>
+      <button onClick={() => setOpen(!open)} style={{
+        width: '100%', padding: '24px 0', background: 'transparent', border: 'none',
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        color: '#fff', fontSize: 18, fontWeight: 600, fontFamily: 'inherit', cursor: 'pointer', textAlign: 'left',
+      }}>
+        {q}
+        <span style={{ color: 'var(--cyan)', fontSize: 24, transform: open ? 'rotate(45deg)' : 'none', transition: 'transform .25s', flexShrink: 0, marginLeft: 16 }}>+</span>
+      </button>
+      <div style={{ maxHeight: open ? 300 : 0, overflow: 'hidden', transition: 'max-height .3s' }}>
+        <p style={{ paddingBottom: 24, fontSize: 15, color: 'var(--text-2)', lineHeight: 1.6 }}>{a}</p>
+      </div>
+    </div>
+  );
+};
+
+const Faq = () => {
+  const items = [
+    { q: 'Preciso ter experiência com AI?', a: 'Não. A mentoria parte do zero e vai até o avançado. Se já tem experiência, vai aprender pipelines e técnicas que não encontra em lugar nenhum.' },
+    { q: 'As aulas são ao vivo ou gravadas?', a: 'As 10 aulas principais são gravadas com acesso vitalício. As mentorias ao vivo acontecem 2x por semana no Discord durante as 4 semanas.' },
+    { q: 'Preciso de um computador potente?', a: 'Não. Todas as ferramentas que usamos rodam na nuvem. Basta ter internet estável e um navegador atualizado.' },
+    { q: 'Posso pagar parcelado?', a: 'Sim. Aceitamos parcelamento em até 12x no cartão de crédito via Kiwify.' },
+    { q: 'E se eu não gostar?', a: 'Garantia incondicional de 7 dias. Se dentro dos primeiros 7 dias você sentir que não é pra você, devolvemos 100% do valor. Sem burocracia.' },
+    { q: 'Quando as aulas ficam disponíveis?', a: 'As aulas gravadas ficam disponíveis imediatamente após a compra. As mentorias ao vivo começam no dia 11 de maio com a turma.' },
+    { q: 'Vou conseguir vender serviços com AI depois?', a: 'Sim. Na semana 4 focamos exatamente nisso: precificação, posicionamento e como oferecer seus serviços. Você sai com um plano prático de monetização.' },
+    { q: 'E o acesso ao Discord?', a: 'O Discord tem uma comunidade gratuita aberta. Alunos da mentoria ganham acesso aos canais exclusivos com conteúdo extra, feedback e networking direto.' },
+  ];
+  return (
+    <SectionWrap bg="#05050F" style={{ scrollMarginTop: 80 }}>
+      <div id="faq" style={{ position: 'absolute', top: -80 }} />
+      <div className="resp-faq-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 60 }}>
+        <div className="anim-reveal-left">
+          <Overline color="lime">// Dúvidas</Overline>
+          <h2 style={{ fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em', marginTop: 16, marginBottom: 24 }}>
+            Perguntas frequentes.
+          </h2>
+          <p style={{ fontSize: 16, color: 'var(--text-2)', lineHeight: 1.6, marginBottom: 24 }}>
+            Não achou sua dúvida? Me manda um email direto.
+          </p>
+          <CtaGhost href="mailto:descubra.ia01@gmail.com">descubra.ia01@gmail.com</CtaGhost>
+        </div>
+        <div className="anim-reveal-right">
+          {items.map((it, i) => <FaqItem key={it.q} {...it} defaultOpen={i === 0} />)}
+        </div>
+      </div>
+    </SectionWrap>
+  );
+};
+
+// ===== CTA FINAL =====
+const CtaFinal = () => (
+  <SectionWrap bg="#05050F" padding="120px 64px">
+    <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 50%, rgba(123,79,224,0.2) 0%, transparent 60%), radial-gradient(ellipse at 50% 100%, rgba(200,255,0,0.15) 0%, transparent 50%)', pointerEvents: 'none' }} />
+    <div className="iap-noise" />
+    <div style={{ textAlign: 'center', position: 'relative' }}>
+      <Pill color="lime">● ÚLTIMAS VAGAS · TURMA 01</Pill>
+      <h2 className="anim-reveal" style={{ fontSize: 84, lineHeight: 0.95, letterSpacing: '-0.04em', marginTop: 28, marginBottom: 24 }}>
+        Pronto pra dominar<br />a produção com <span className="iap-grad-text">AI?</span>
+      </h2>
+      <p className="anim-reveal" style={{ fontSize: 19, color: 'var(--text-2)', maxWidth: 640, marginInline: 'auto', marginBottom: 40 }}>
+        30 vagas. 4 semanas. A próxima turma pode demorar. <strong style={{ color: '#fff' }}>Garanta seu lugar agora.</strong>
+      </p>
+      <div className="anim-reveal" style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 32 }}>
+        <CtaPrimary size="xl">Entrar na lista de espera</CtaPrimary>
+      </div>
+      <div style={{ display: 'flex', gap: 32, justifyContent: 'center', flexWrap: 'wrap', fontSize: 13, color: 'var(--text-3)' }}>
+        <span>🔒 Pagamento seguro via Kiwify</span>
+        <span>✓ Garantia de 7 dias</span>
+        <span>👥 Turma fechada · 30 alunos</span>
+      </div>
+      <div style={{ marginTop: 40 }}>
+        <a href="mailto:descubra.ia01@gmail.com" style={{ color: 'var(--cyan)', fontSize: 14, textDecoration: 'none', borderBottom: '1px solid rgba(200,255,0,0.3)' }}>
+          Tem dúvidas? Me manda um email →
+        </a>
+      </div>
+    </div>
+  </SectionWrap>
+);
+
+// ===== FOOTER =====
+const Footer = () => (
+  <footer style={{ background: '#020203', padding: '56px 64px 0', position: 'relative' }}>
+    <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 32 }}>
+        <div>
+          <LogoPipeline size={28} />
+          <p style={{ fontSize: 13, color: 'var(--text-3)', marginTop: 16, maxWidth: 320 }}>Mentoria Exclusiva de Produção com AI</p>
+        </div>
+        <div style={{ display: 'flex', gap: 32, fontSize: 13, color: 'var(--text-2)', flexWrap: 'wrap' }}>
+          <a href="https://instagram.com/caaiomonteiiro_" target="_blank" rel="noopener" style={{ color: 'inherit', textDecoration: 'none' }}>Instagram</a>
+          <a href="https://vimeo.com/caaiomonteiiro" target="_blank" rel="noopener" style={{ color: 'inherit', textDecoration: 'none' }}>Vimeo</a>
+          <a href={DISCORD_URL} target="_blank" rel="noopener" style={{ color: 'inherit', textDecoration: 'none' }}>Discord</a>
+          <a href="mailto:descubra.ia01@gmail.com" style={{ color: 'inherit', textDecoration: 'none' }}>Contato</a>
+        </div>
+      </div>
+      <div style={{ marginTop: 56, paddingTop: 24, borderTop: '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, fontSize: 12, color: 'var(--text-3)' }}>
+        <span>© 2026 The AI Pipeline. Todos os direitos reservados.</span>
+        <span className="mono">v1.0 · Turma 01</span>
+      </div>
+    </div>
+    <div style={{ marginTop: 40, height: 4, background: 'var(--grad)' }} />
+  </footer>
+);
+
+// ===== STICKY CTA =====
+const StickyCta = () => {
+  const [show, setShow] = React.useState(false);
+  React.useEffect(() => {
+    const onScroll = () => setShow(window.scrollY > 800);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return (
+    <div className="resp-sticky-bar" style={{
+      position: 'fixed', bottom: 24, left: '50%', transform: `translateX(-50%) translateY(${show ? 0 : 100}px)`,
+      transition: 'transform .3s', zIndex: 100, background: 'rgba(10,10,15,0.95)', backdropFilter: 'blur(20px)',
+      border: '1px solid var(--line)', borderRadius: 100, padding: '8px 8px 8px 24px',
+      display: 'flex', alignItems: 'center', gap: 20, boxShadow: '0 8px 40px rgba(0,0,0,0.5)',
+    }}>
+      <div className="mono resp-sticky-text" style={{ fontSize: 11, color: 'var(--cyan)', letterSpacing: '0.15em' }}>● 30 VAGAS · INÍCIO 11.05</div>
+      <CtaPrimary size="sm">Garantir vaga</CtaPrimary>
+    </div>
+  );
+};
+
+// ===== MAIN APP =====
+const App = () => (
+  <div className="iap" style={{ background: '#05050F', minHeight: '100vh' }}>
+    <Navbar />
+    <Hero />
+    <ToolsTicker />
+    <Problema />
+    <Solucao />
+    <Modulos />
+    <Incluso />
+    <ParaQuem />
+    <Resultados />
+    <Comparacao />
+    <Pricing />
+    <Countdown />
+    <Mentor />
+    <Faq />
+    <CtaFinal />
+    <Footer />
+    <StickyCta />
+  </div>
+);
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+
+<!-- Scroll Animation Observer -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Wait for React to render
+  setTimeout(function() {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.anim-reveal, .anim-reveal-left, .anim-reveal-right, .anim-scale').forEach(function(el) {
+      observer.observe(el);
+    });
+  }, 500);
+});
+</script>
+</body>
+</html>
