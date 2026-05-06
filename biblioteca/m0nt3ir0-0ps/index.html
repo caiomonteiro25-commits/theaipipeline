@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ops Center · The AI Pipeline</title>
+<meta name="description" content="Dashboard interno. Acesso restrito.">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:'DM Sans',system-ui,sans-serif;background:#07080f;color:#e8e6f8;font-weight:400;line-height:1.5;min-height:100vh;overflow-x:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input{font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+:root{
+  --bg:#07080f; --surface:#111122; --surface-2:#161629; --surface-3:#1c1c33;
+  --primary:#6c63ff; --accent:#a78bfa; --green:#22d3a5; --gold:#fbbf24; --red:#ef4444;
+  --text:#e8e6f8; --muted:#7a7a99; --muted-2:#52527a;
+  --border:rgba(167,139,250,.12); --border-2:rgba(167,139,250,.22);
+  --shadow:0 20px 60px -20px rgba(108,99,255,.25);
+  --shadow-glow:0 30px 80px -20px rgba(108,99,255,.5);
+}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:#0d0e1c}
+::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:5px;border:2px solid #0d0e1c}
+::-webkit-scrollbar-thumb:hover{background:var(--border-2)}
+
+.bg-orb{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 50% 40% at 50% 30%,rgba(108,99,255,.1),transparent 60%),
+             radial-gradient(ellipse 60% 50% at 80% 80%,rgba(167,139,250,.06),transparent 60%)}
+
+/* GATE */
+.gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;position:relative;z-index:1}
+.gate-card{max-width:440px;width:100%;background:var(--surface);border:1px solid var(--border-2);
+  border-radius:18px;padding:40px 32px;text-align:center;box-shadow:var(--shadow)}
+.gate-icon{width:60px;height:60px;border-radius:14px;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  display:flex;align-items:center;justify-content:center;color:#fff;margin:0 auto 22px;
+  box-shadow:var(--shadow-glow)}
+.gate-tag{font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);
+  letter-spacing:.18em;text-transform:uppercase;margin-bottom:12px}
+.gate-card h1{font-family:'Syne',sans-serif;font-weight:800;font-size:28px;
+  letter-spacing:-.02em;margin-bottom:8px}
+.gate-card p{color:var(--muted);font-size:14px;line-height:1.55;margin-bottom:24px}
+.gate-form{display:flex;flex-direction:column;gap:10px}
+.gate-form input{width:100%;padding:14px 18px;background:var(--surface-2);border:1px solid var(--border);
+  border-radius:10px;font-size:15px;color:var(--text);font-family:'DM Sans',sans-serif;
+  transition:border-color .2s,box-shadow .2s}
+.gate-form input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(167,139,250,.15)}
+.gate-form input.invalid{border-color:var(--red);box-shadow:0 0 0 3px rgba(239,68,68,.12)}
+.gate-form button{padding:14px 18px;border-radius:10px;
+  background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;
+  font-family:'Space Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  box-shadow:var(--shadow);transition:transform .2s,filter .2s}
+.gate-form button:hover{transform:translateY(-1px);filter:brightness(1.1)}
+.gate-form button:disabled{opacity:.6;cursor:wait}
+.gate-error{font-family:'Space Mono',monospace;font-size:11px;color:var(--red);
+  margin-top:6px;letter-spacing:.05em;display:none}
+.gate-error.show{display:block}
+
+/* DASHBOARD */
+.dash{display:none;min-height:100vh;position:relative;z-index:1}
+.dash.active{display:block}
+.dash-header{position:sticky;top:0;z-index:10;background:rgba(7,8,15,.85);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.dash-header-inner{max-width:1400px;margin:0 auto;padding:18px 32px;
+  display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.dash-logo{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--text)}
+.dash-logo span{color:var(--accent)}
+.dash-actions{display:flex;gap:10px;align-items:center}
+.dash-btn{padding:9px 16px;border-radius:8px;border:1px solid var(--border);
+  font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;
+  transition:all .2s}
+.dash-btn:hover{color:var(--text);border-color:var(--border-2);background:var(--surface)}
+.dash-btn.primary{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:0}
+.dash-btn.primary:hover{filter:brightness(1.1)}
+
+main{max-width:1400px;margin:0 auto;padding:32px}
+.dash-title{font-family:'Syne',sans-serif;font-weight:800;font-size:38px;letter-spacing:-.02em;margin-bottom:6px}
+.dash-sub{color:var(--muted);font-size:15px;margin-bottom:36px}
+.dash-sub code{color:var(--accent);font-family:'Space Mono',monospace;font-size:13px;
+  background:var(--surface-2);padding:2px 8px;border-radius:4px}
+
+/* Stats grid */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:32px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px;
+  position:relative;overflow:hidden}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--stat-color,var(--accent));opacity:.7}
+.stat-label{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted-2);
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.stat-value{font-family:'Syne',sans-serif;font-weight:800;font-size:36px;line-height:1;
+  background:linear-gradient(120deg,var(--text),var(--stat-color,var(--accent)));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.stat-meta{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);margin-top:6px;letter-spacing:.04em}
+
+/* Filtros */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.filter-chip{padding:7px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--border);
+  font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.06em;cursor:pointer;
+  transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.filter-chip:hover{color:var(--text);border-color:var(--border-2)}
+.filter-chip.active{background:linear-gradient(135deg,rgba(108,99,255,.18),rgba(167,139,250,.14));
+  border-color:var(--accent);color:var(--text)}
+.filter-chip-count{font-size:10px;background:rgba(167,139,250,.1);padding:1px 6px;border-radius:999px}
+.filter-chip.active .filter-chip-count{background:rgba(167,139,250,.25);color:var(--accent)}
+
+/* Tabela de leads */
+.leads-table{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.leads-search{padding:14px 18px;border-bottom:1px solid var(--border);position:relative}
+.leads-search input{width:100%;padding:10px 14px 10px 38px;background:var(--surface-2);border:1px solid var(--border);
+  border-radius:8px;font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif}
+.leads-search input:focus{outline:none;border-color:var(--accent)}
+.leads-search svg{position:absolute;left:30px;top:50%;transform:translateY(-50%);color:var(--muted-2);pointer-events:none}
+.leads-grid{display:grid;grid-template-columns:130px 110px 1.5fr 1.5fr 1fr 100px;gap:0}
+.leads-grid > div{padding:12px 14px;border-bottom:1px solid var(--border);font-size:13px;display:flex;align-items:center;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.leads-head{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted-2);
+  letter-spacing:.14em;text-transform:uppercase;background:var(--surface-2)}
+.leads-head > div{padding:14px 14px;border-bottom:1px solid var(--border-2)}
+.leads-row{transition:background .15s}
+.leads-row:hover{background:var(--surface-2)}
+.leads-row > div{color:var(--text)}
+.leads-row .lead-time{color:var(--muted);font-family:'Space Mono',monospace;font-size:11px}
+.leads-row .lead-source{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+.lead-source-biblioteca{color:var(--accent)}
+.lead-source-landing{color:var(--green)}
+.lead-source-fail{color:var(--red)}
+.leads-row .lead-name{font-weight:500;color:var(--text)}
+.leads-row .lead-email,.leads-row .lead-whatsapp{color:var(--muted)}
+.leads-row .lead-code{font-family:'Space Mono',monospace;font-size:10px;color:var(--gold)}
+.lead-empty{padding:60px 24px;text-align:center;color:var(--muted-2);grid-column:1/-1}
+.lead-empty h3{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;color:var(--text);margin-bottom:6px}
+
+/* MOBILE */
+@media (max-width:900px){
+  .leads-grid{grid-template-columns:1fr}
+  .leads-grid > div{border-bottom:none}
+  .leads-head{display:none}
+  .leads-row{display:block;padding:14px 16px;border-bottom:1px solid var(--border)}
+  .leads-row > div{padding:2px 0;display:block}
+  .leads-row .lead-name{font-size:15px;font-weight:600;margin-bottom:4px}
+  main{padding:24px 18px}
+  .dash-title{font-size:28px}
+  .dash-header-inner{padding:14px 18px}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-orb"></div>
+
+<!-- =============== GATE =============== -->
+<section class="gate" id="gate">
+  <div class="gate-card">
+    <div class="gate-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <p class="gate-tag">Ops Center · acesso restrito</p>
+    <h1>Dashboard interno</h1>
+    <p>Apenas Caio. Digite a senha do admin pra ver os leads.</p>
+    <form class="gate-form" id="gate-form">
+      <input type="password" id="gate-password" placeholder="Senha do admin" required autofocus>
+      <button type="submit" id="gate-submit">Entrar</button>
+      <p class="gate-error" id="gate-error">Senha incorreta.</p>
+    </form>
+  </div>
+</section>
+
+<!-- =============== DASHBOARD =============== -->
+<section class="dash" id="dash">
+  <header class="dash-header">
+    <div class="dash-header-inner">
+      <span class="dash-logo">THE AI <span>PIPELINE</span> // OPS CENTER</span>
+      <div class="dash-actions">
+        <button class="dash-btn" id="refresh-btn">↻ Atualizar</button>
+        <button class="dash-btn" id="export-btn">↓ Exportar CSV</button>
+        <button class="dash-btn" id="logout-btn">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <h1 class="dash-title">Leads capturados</h1>
+    <p class="dash-sub">Acesso à biblioteca + lista de espera. Atualizado em tempo real do Sheets.</p>
+
+    <div class="stats" id="stats"></div>
+
+    <div class="filters" id="filters"></div>
+
+    <div class="leads-table">
+      <div class="leads-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="leads-search" placeholder="Buscar por nome, email ou whatsapp..." autocomplete="off">
+      </div>
+      <div class="leads-grid leads-head">
+        <div>Quando</div>
+        <div>Origem</div>
+        <div>Nome</div>
+        <div>Email</div>
+        <div>WhatsApp</div>
+        <div>Código</div>
+      </div>
+      <div id="leads-rows"></div>
+    </div>
+  </main>
+</section>
+
+<script>
+const SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbzN6RayRtwP5z9WqrpihEjyjpAfNTEIO6XNIWrvq-wMbKdyrttNWDXWiWiUwV69ZU2Jsw/exec";
+
+let allLeads = [];
+let currentFilter = "all";
+let currentSearch = "";
+
+const SOURCE_LABELS = {
+  "biblioteca": "Biblioteca",
+  "landing": "Lista de espera",
+  "biblioteca-fail": "Cód. inválido"
+};
+const SOURCE_COLORS = {
+  "biblioteca": "var(--accent)",
+  "landing": "var(--green)",
+  "biblioteca-fail": "var(--red)"
+};
+
+document.getElementById("gate-form").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const pwEl = document.getElementById("gate-password");
+  const errEl = document.getElementById("gate-error");
+  const submitBtn = document.getElementById("gate-submit");
+  const password = pwEl.value;
+  if(!password){ pwEl.classList.add("invalid"); return; }
+
+  errEl.classList.remove("show");
+  pwEl.classList.remove("invalid");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Verificando...";
+
+  if(!SHEETS_ENDPOINT || SHEETS_ENDPOINT.startsWith("__")){
+    errEl.textContent = "Backend ainda não configurado. Faça setup do Apps Script primeiro.";
+    errEl.classList.add("show");
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Entrar";
+    return;
+  }
+
+  try{
+    const r = await fetch(SHEETS_ENDPOINT + "?password=" + encodeURIComponent(password));
+    const data = await r.json();
+    if(!data.ok){
+      errEl.textContent = "Senha incorreta.";
+      errEl.classList.add("show");
+      pwEl.classList.add("invalid");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Entrar";
+      return;
+    }
+    // Sucesso — guarda senha em sessionStorage pra próximas calls
+    sessionStorage.setItem("ops-pw", password);
+    allLeads = (data.leads || []).reverse(); // mais recente primeiro
+    enterDashboard();
+  } catch(err){
+    errEl.textContent = "Erro de rede. Tente de novo.";
+    errEl.classList.add("show");
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Entrar";
+  }
+});
+
+function enterDashboard(){
+  document.getElementById("gate").style.display = "none";
+  document.getElementById("dash").classList.add("active");
+  render();
+}
+
+function logout(){
+  sessionStorage.removeItem("ops-pw");
+  location.reload();
+}
+
+async function refresh(){
+  const password = sessionStorage.getItem("ops-pw");
+  if(!password){ logout(); return; }
+  const btn = document.getElementById("refresh-btn");
+  const orig = btn.textContent;
+  btn.textContent = "Atualizando...";
+  try{
+    const r = await fetch(SHEETS_ENDPOINT + "?password=" + encodeURIComponent(password));
+    const data = await r.json();
+    if(data.ok){
+      allLeads = (data.leads || []).reverse();
+      render();
+    }
+  } catch(e){}
+  btn.textContent = orig;
+}
+
+function render(){
+  renderStats();
+  renderFilters();
+  renderRows();
+}
+
+function renderStats(){
+  const total = allLeads.length;
+  const byBiblio = allLeads.filter(l => l.source === "biblioteca").length;
+  const byLanding = allLeads.filter(l => l.source === "landing").length;
+  const byFail = allLeads.filter(l => l.source === "biblioteca-fail").length;
+  const today = new Date().toISOString().slice(0,10);
+  const todayCount = allLeads.filter(l => (l.timestamp || "").slice(0,10) === today).length;
+
+  document.getElementById("stats").innerHTML = `
+    <div class="stat" style="--stat-color: var(--accent)">
+      <div class="stat-label">Total</div>
+      <div class="stat-value">${total}</div>
+      <div class="stat-meta">leads capturados</div>
+    </div>
+    <div class="stat" style="--stat-color: var(--green)">
+      <div class="stat-label">Hoje</div>
+      <div class="stat-value">${todayCount}</div>
+      <div class="stat-meta">novos hoje</div>
+    </div>
+    <div class="stat" style="--stat-color: var(--accent)">
+      <div class="stat-label">Biblioteca</div>
+      <div class="stat-value">${byBiblio}</div>
+      <div class="stat-meta">acessos com código</div>
+    </div>
+    <div class="stat" style="--stat-color: var(--green)">
+      <div class="stat-label">Lista de espera</div>
+      <div class="stat-value">${byLanding}</div>
+      <div class="stat-meta">leads da landing</div>
+    </div>
+    ${byFail > 0 ? `
+      <div class="stat" style="--stat-color: var(--red)">
+        <div class="stat-label">Códigos inválidos</div>
+        <div class="stat-value">${byFail}</div>
+        <div class="stat-meta">tentativas suspeitas</div>
+      </div>` : ""}
+  `;
+}
+
+function renderFilters(){
+  const counts = {all: allLeads.length};
+  allLeads.forEach(l => { counts[l.source] = (counts[l.source]||0)+1; });
+  const sources = Object.keys(counts).filter(k => k !== "all" && counts[k] > 0);
+  const html = [
+    `<button class="filter-chip ${currentFilter==='all'?'active':''}" onclick="setFilter('all')">Todas <span class="filter-chip-count">${counts.all}</span></button>`,
+    ...sources.map(s => `<button class="filter-chip ${currentFilter===s?'active':''}" onclick="setFilter('${s}')">${SOURCE_LABELS[s]||s} <span class="filter-chip-count">${counts[s]}</span></button>`)
+  ].join("");
+  document.getElementById("filters").innerHTML = html;
+}
+
+function setFilter(s){ currentFilter = s; renderFilters(); renderRows(); }
+
+function getFiltered(){
+  let f = allLeads;
+  if(currentFilter !== "all") f = f.filter(l => l.source === currentFilter);
+  if(currentSearch){
+    const q = currentSearch.toLowerCase();
+    f = f.filter(l => (l.name + " " + l.email + " " + l.whatsapp + " " + (l.code||"")).toLowerCase().includes(q));
+  }
+  return f;
+}
+
+function renderRows(){
+  const filtered = getFiltered();
+  if(filtered.length === 0){
+    document.getElementById("leads-rows").innerHTML = `<div class="leads-grid"><div class="lead-empty"><h3>Nada por aqui</h3><p>Sem leads que combinem com esse filtro.</p></div></div>`;
+    return;
+  }
+  const html = filtered.map(l => {
+    const time = formatTime(l.timestamp);
+    const src = SOURCE_LABELS[l.source] || l.source || "—";
+    const srcClass = "lead-source-" + (l.source||"").replace("-","-");
+    return `<div class="leads-grid leads-row">
+      <div class="lead-time">${time}</div>
+      <div class="lead-source ${srcClass}">${src}</div>
+      <div class="lead-name">${escapeHtml(l.name||"—")}</div>
+      <div class="lead-email">${escapeHtml(l.email||"—")}</div>
+      <div class="lead-whatsapp">${escapeHtml(l.whatsapp||"—")}</div>
+      <div class="lead-code">${escapeHtml(l.code||"—")}</div>
+    </div>`;
+  }).join("");
+  document.getElementById("leads-rows").innerHTML = html;
+}
+
+function formatTime(ts){
+  if(!ts) return "—";
+  try{
+    const d = new Date(ts);
+    const now = new Date();
+    const diffH = (now - d) / (1000*60*60);
+    if(diffH < 1) return Math.floor(diffH*60) + "m atrás";
+    if(diffH < 24) return Math.floor(diffH) + "h atrás";
+    return d.toLocaleDateString("pt-BR") + " " + d.toLocaleTimeString("pt-BR", {hour:"2-digit",minute:"2-digit"});
+  } catch(e){ return ts; }
+}
+
+function escapeHtml(s){return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[c])}
+
+function exportCSV(){
+  const filtered = getFiltered();
+  if(filtered.length === 0) return;
+  const headers = ["timestamp","source","name","email","whatsapp","code"];
+  const csv = [
+    headers.join(","),
+    ...filtered.map(l => headers.map(h => `"${String(l[h]||"").replace(/"/g,'""')}"`).join(","))
+  ].join("\n");
+  const blob = new Blob([csv], {type: "text/csv;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `leads-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById("leads-search").addEventListener("input", e=>{
+  currentSearch = e.target.value.trim();
+  renderRows();
+});
+document.getElementById("refresh-btn").addEventListener("click", refresh);
+document.getElementById("export-btn").addEventListener("click", exportCSV);
+document.getElementById("logout-btn").addEventListener("click", logout);
+
+// Auto-login se tiver senha em sessionStorage
+(async function init(){
+  const saved = sessionStorage.getItem("ops-pw");
+  if(saved && SHEETS_ENDPOINT && !SHEETS_ENDPOINT.startsWith("__")){
+    document.getElementById("gate-password").value = saved;
+    document.getElementById("gate-form").requestSubmit();
+  }
+})();
+</script>
+</body>
+</html>

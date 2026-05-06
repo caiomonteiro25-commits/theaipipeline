@@ -458,8 +458,9 @@ a{color:inherit;text-decoration:none}
       <input type="text" id="entry-name" placeholder="Seu nome" required maxlength="60" autofocus autocomplete="name">
       <input type="email" id="entry-email" placeholder="Seu email" required autocomplete="email">
       <input type="tel" id="entry-whatsapp" placeholder="WhatsApp com DDD" required autocomplete="tel">
+      <input type="text" id="entry-code" placeholder="Código de acesso da mentoria" required maxlength="40" autocomplete="off" spellcheck="false">
       <button type="submit" class="btn-cta" id="entry-submit">Acessar →</button>
-      <p class="entry-disclaimer" id="entry-disclaimer">Os dados ficam só comigo (Caio) — sem spam, sem vender pra ninguém.</p>
+      <p class="entry-disclaimer" id="entry-disclaimer">Acesso exclusivo pra alunos da mentoria. Os dados ficam só comigo (Caio).</p>
     </form>
     <div class="entry-stats">
       <span><strong>222</strong>Skills</span>
@@ -838,6 +839,33 @@ const MCP_PATH = (name) => `/mcps-md/${encodeURIComponent(name)}.md`;
 // Discord webhook — recebe os leads em tempo real
 const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1501637329092350053/vs38uW9m-HbZT7wIZXQZIz4RZUlTSk1B5Kwi41SHGaeZ1etPKXEE3B0VkvvhNKlnM3lg";
 
+// Apps Script endpoint — guarda os leads em Google Sheets pro dashboard
+const SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbzN6RayRtwP5z9WqrpihEjyjpAfNTEIO6XNIWrvq-wMbKdyrttNWDXWiWiUwV69ZU2Jsw/exec";
+
+// Códigos válidos pra entrar na biblioteca (alunos pagantes recebem este código)
+const VALID_CODES = ["AIPIPELINE2026", "MENTORIA2026"];
+
+function isValidCode(code){
+  if(!code) return false;
+  const c = code.trim().toUpperCase();
+  return VALID_CODES.some(v => v.toUpperCase() === c);
+}
+
+async function postToSheets(data){
+  if(!SHEETS_ENDPOINT || SHEETS_ENDPOINT.startsWith("__")) return false;
+  try{
+    await fetch(SHEETS_ENDPOINT, {
+      method: "POST",
+      mode: "no-cors", // Apps Script aceita no-cors
+      headers: {"Content-Type": "text/plain;charset=utf-8"},
+      body: JSON.stringify({...data, userAgent: navigator.userAgent})
+    });
+    return true;
+  } catch(e){
+    return false;
+  }
+}
+
 async function postLead(data){
   // data: {source, name, email, whatsapp, extra}
   if(!DISCORD_WEBHOOK || DISCORD_WEBHOOK.startsWith("__")) return false;
@@ -939,26 +967,42 @@ document.getElementById("entry-form").addEventListener("submit", async e=>{
   const nameEl = document.getElementById("entry-name");
   const emailEl = document.getElementById("entry-email");
   const waEl = document.getElementById("entry-whatsapp");
+  const codeEl = document.getElementById("entry-code");
   const submitBtn = document.getElementById("entry-submit");
   const disclaimer = document.getElementById("entry-disclaimer");
 
   const name = nameEl.value.trim();
   const email = emailEl.value.trim();
   const whatsapp = waEl.value.trim();
+  const code = codeEl.value.trim();
 
   // Reset estados visuais
-  [nameEl,emailEl,waEl].forEach(el=>el.classList.remove("invalid"));
+  [nameEl,emailEl,waEl,codeEl].forEach(el=>el.classList.remove("invalid"));
   disclaimer.classList.remove("error");
 
-  // Validação
+  // Validação dos campos básicos
   let firstInvalid = null;
   if(!name){ nameEl.classList.add("invalid"); firstInvalid = firstInvalid || nameEl; }
   if(!validateEmail(email)){ emailEl.classList.add("invalid"); firstInvalid = firstInvalid || emailEl; }
   if(!validatePhone(whatsapp)){ waEl.classList.add("invalid"); firstInvalid = firstInvalid || waEl; }
+  if(!code){ codeEl.classList.add("invalid"); firstInvalid = firstInvalid || codeEl; }
   if(firstInvalid){
     disclaimer.classList.add("error");
-    disclaimer.textContent = "Preencha tudo com email e WhatsApp válidos pra acessar.";
+    disclaimer.textContent = "Preencha tudo: email e WhatsApp válidos + código de acesso.";
     firstInvalid.focus();
+    return;
+  }
+
+  // Validação do código (registra mesmo se errado, pra você ver tentativas no Discord)
+  const codeOK = isValidCode(code);
+  if(!codeOK){
+    codeEl.classList.add("invalid");
+    disclaimer.classList.add("error");
+    disclaimer.textContent = "Código de acesso inválido. Confira o código que recebeu.";
+    codeEl.focus();
+    // Notifica tentativa no Discord (silenciosamente, sem bloquear UX)
+    postLead({source:"biblioteca", name, email, whatsapp, extra:`Código inválido tentado: ${code}`}).catch(()=>{});
+    postToSheets({source:"biblioteca-fail", name, email, whatsapp, code}).catch(()=>{});
     return;
   }
 
@@ -973,12 +1017,15 @@ document.getElementById("entry-form").addEventListener("submit", async e=>{
   document.getElementById("lib-user-name").textContent = name;
   document.getElementById("lib-avatar").textContent = name.charAt(0).toUpperCase();
 
-  // Só envia pro Discord se for primeira vez
+  // Só envia pro Discord+Sheets se for primeira vez
   const alreadySubmitted = localStorage.getItem("aip-submitted-biblio");
   if(!alreadySubmitted){
     submitBtn.disabled = true;
     submitBtn.textContent = "Enviando…";
-    await postLead({source:"biblioteca", name, email, whatsapp});
+    await Promise.all([
+      postLead({source:"biblioteca", name, email, whatsapp, extra:`Código: ${code}`}),
+      postToSheets({source:"biblioteca", name, email, whatsapp, code})
+    ]);
     try{ localStorage.setItem("aip-submitted-biblio", "1"); }catch(e){}
     submitBtn.disabled = false;
     submitBtn.textContent = "Acessar →";
@@ -1018,7 +1065,10 @@ if(waitlistForm){
 
     submitBtn.disabled = true;
     submitBtn.textContent = "Enviando…";
-    await postLead({source:"landing", name, email, whatsapp});
+    await Promise.all([
+      postLead({source:"landing", name, email, whatsapp}),
+      postToSheets({source:"landing", name, email, whatsapp})
+    ]);
     submitBtn.disabled = false;
     submitBtn.textContent = "Garantir minha vaga →";
 
