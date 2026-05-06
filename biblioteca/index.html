@@ -854,14 +854,16 @@ function isValidCode(code){
 async function postToSheets(data){
   if(!SHEETS_ENDPOINT || SHEETS_ENDPOINT.startsWith("__")) return false;
   try{
+    // form-urlencoded é "simple request" — sem preflight CORS, sem redirect-with-body issue
+    const body = new URLSearchParams();
+    body.append("payload", JSON.stringify({...data, userAgent: navigator.userAgent}));
     await fetch(SHEETS_ENDPOINT, {
       method: "POST",
-      mode: "no-cors", // Apps Script aceita no-cors
-      headers: {"Content-Type": "text/plain;charset=utf-8"},
-      body: JSON.stringify({...data, userAgent: navigator.userAgent})
+      body: body
     });
     return true;
   } catch(e){
+    console.warn("postToSheets:", e);
     return false;
   }
 }
