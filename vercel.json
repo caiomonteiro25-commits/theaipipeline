@@ -1,27 +1,19 @@
 {
-  "rewrites": [
+  "routes": [
     {
-      "source": "/",
-      "has": [
-        { "type": "host", "value": "bibl10t3c4secr3t4.theaipipeline.com.br" }
-      ],
-      "destination": "/biblioteca/index.html"
+      "src": "/biblioteca/(.*)",
+      "headers": {
+        "X-Robots-Tag": "noindex, nofollow, noarchive",
+        "Cache-Control": "public, max-age=0, must-revalidate"
+      },
+      "continue": true
     },
     {
-      "source": "/(.*)",
+      "src": "/(.*)",
       "has": [
         { "type": "host", "value": "bibl10t3c4secr3t4.theaipipeline.com.br" }
       ],
-      "destination": "/biblioteca/$1"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/biblioteca/(.*)",
-      "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
-      ]
+      "dest": "/biblioteca/$1"
     }
   ]
 }
