@@ -1,6 +1,27 @@
 {
-  "buildCommand": "",
-  "outputDirectory": ".",
-  "cleanUrls": true
-
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [
+        { "type": "host", "value": "bibl10t3c4secr3t4.theaipipeline.com.br" }
+      ],
+      "destination": "/biblioteca/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        { "type": "host", "value": "bibl10t3c4secr3t4.theaipipeline.com.br" }
+      ],
+      "destination": "/biblioteca/$1"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/biblioteca/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+      ]
+    }
+  ]
 }

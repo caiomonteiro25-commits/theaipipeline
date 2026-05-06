@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The AI Pipeline · Biblioteca</title>
+<meta name="description" content="200+ skills e 30 MCPs para Claude. Biblioteca exclusiva The AI Pipeline.">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:'DM Sans',system-ui,sans-serif;background:#07080f;color:#e8e6f8;font-weight:400;line-height:1.5;min-height:100vh;overflow-x:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input{font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+:root{
+  --bg:#07080f; --bg2:#0d0e1c;
+  --surface:#111122; --surface-2:#161629; --surface-3:#1c1c33;
+  --primary:#6c63ff; --accent:#a78bfa; --green:#22d3a5; --gold:#fbbf24;
+  --text:#e8e6f8; --muted:#7a7a99; --muted-2:#52527a;
+  --border:rgba(167,139,250,.12); --border-2:rgba(167,139,250,.22);
+  --shadow:0 20px 60px -20px rgba(108,99,255,.25);
+  --shadow-glow:0 30px 80px -20px rgba(108,99,255,.5);
+  --area-operacao:#6c63ff; --area-musica:#f472b6; --area-producao:#38bdf8;
+  --area-eventos:#fb923c; --area-cursos:#34d399; --area-marketing:#22d3a5;
+  --area-auxiliares:#a78bfa; --area-automacao:#f97316; --area-redes:#e879f9;
+  --area-seguranca:#94a3b8; --area-html:#10b981; --area-adobe:#ef4444;
+  --area-vip:#fbbf24;
+  --grp-produtividade:#6c63ff; --grp-comunicacao:#f472b6; --grp-web-dados:#38bdf8;
+  --grp-documentos:#34d399; --grp-dev:#f97316; --grp-criatividade:#e879f9;
+}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:5px;border:2px solid var(--bg2)}
+::-webkit-scrollbar-thumb:hover{background:var(--border-2)}
+
+.bg-grid{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(167,139,250,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(167,139,250,.03) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 30%,black,transparent);
+  -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 30%,black,transparent)}
+.bg-orb{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 50% 40% at 50% 30%,rgba(108,99,255,.12),transparent 60%),
+             radial-gradient(ellipse 60% 50% at 80% 80%,rgba(167,139,250,.08),transparent 60%)}
+
+.screen{display:none;min-height:100vh;position:relative;z-index:1;flex-direction:column;animation:fadeIn .4s ease-out}
+.screen.active{display:flex}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* TELA 1 */
+#tela-1{align-items:center;justify-content:center;padding:48px 24px}
+.entry-card{max-width:700px;width:100%;text-align:center}
+.entry-badge{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;
+  background:rgba(34,211,165,.06);border:1px solid rgba(34,211,165,.2);
+  font-family:'Space Mono',monospace;font-size:11px;color:var(--green);
+  letter-spacing:.16em;text-transform:uppercase;margin-bottom:32px}
+.entry-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 10px var(--green);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+.entry-card h1{font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(38px,6vw,68px);line-height:1.02;letter-spacing:-.025em;margin-bottom:24px}
+.entry-card h1 em{font-style:normal;background:linear-gradient(120deg,var(--accent),var(--primary));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.entry-sub{font-size:18px;color:var(--muted);max-width:560px;margin:0 auto 48px;line-height:1.6}
+.entry-form{display:flex;gap:8px;max-width:520px;margin:0 auto 32px;flex-wrap:wrap}
+.entry-form input{flex:1;min-width:0;padding:18px 22px;background:var(--surface);border:1px solid var(--border-2);
+  border-radius:14px;font-size:16px;color:var(--text);transition:border-color .2s,box-shadow .2s;font-family:'DM Sans',sans-serif}
+.entry-form input::placeholder{color:var(--muted-2)}
+.entry-form input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(167,139,250,.15)}
+.btn-cta{display:inline-flex;align-items:center;gap:10px;padding:18px 28px;border-radius:14px;
+  background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;
+  font-family:'Space Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  box-shadow:var(--shadow-glow);transition:transform .25s cubic-bezier(.2,.9,.3,1.2),filter .25s;position:relative;overflow:hidden}
+.btn-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.18),transparent);transform:translateX(-100%);transition:transform .6s}
+.btn-cta:hover{transform:translateY(-2px) scale(1.02);filter:brightness(1.08)}
+.btn-cta:hover::before{transform:translateX(100%)}
+.btn-cta:active{transform:translateY(0) scale(.99)}
+.entry-stats{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;
+  font-family:'Space Mono',monospace;font-size:12px;color:var(--muted-2);letter-spacing:.1em;text-transform:uppercase}
+.entry-stats span strong{color:var(--accent);font-weight:700;margin-right:6px}
+
+/* TELA 2 */
+#tela-2{padding:48px 32px}
+.guide-wrap{max-width:1100px;margin:0 auto;width:100%}
+.guide-greet{font-family:'Space Mono',monospace;font-size:12px;color:var(--green);
+  letter-spacing:.18em;text-transform:uppercase;margin-bottom:12px}
+.guide-h1{font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(34px,5vw,56px);line-height:1.05;letter-spacing:-.02em;margin-bottom:18px}
+.guide-h1 em{font-style:normal;background:linear-gradient(120deg,var(--accent),var(--primary));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.guide-intro{font-size:17px;color:var(--muted);max-width:680px;line-height:1.55;margin-bottom:48px}
+
+.guide-section{margin-bottom:48px}
+.guide-section-title{font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);
+  letter-spacing:.18em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.guide-section-title::before{content:'';width:24px;height:1px;background:var(--border-2)}
+.guide-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.guide-section h3{font-family:'Syne',sans-serif;font-weight:700;font-size:28px;line-height:1.15;letter-spacing:-.015em;margin-bottom:24px}
+
+.what-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.what-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;
+  position:relative;overflow:hidden;transition:transform .2s,border-color .2s}
+.what-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.what-card.skills::before{background:linear-gradient(90deg,var(--primary),var(--accent))}
+.what-card.mcps::before{background:linear-gradient(90deg,var(--green),var(--accent))}
+.what-card:hover{transform:translateY(-2px);border-color:var(--border-2)}
+.what-tag{display:inline-block;font-family:'Space Mono',monospace;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;padding:4px 10px;border-radius:6px}
+.what-card.skills .what-tag{color:var(--accent);background:rgba(167,139,250,.1);border:1px solid var(--border-2)}
+.what-card.mcps .what-tag{color:var(--green);background:rgba(34,211,165,.08);border:1px solid rgba(34,211,165,.22)}
+.what-card h4{font-family:'Syne',sans-serif;font-weight:800;font-size:24px;letter-spacing:-.01em;margin-bottom:12px}
+.what-card p{font-size:14px;color:var(--muted);line-height:1.6}
+.what-card strong{color:var(--text);font-weight:500}
+
+.for-list{display:flex;flex-direction:column;gap:14px;background:var(--surface);
+  border:1px solid var(--border);border-radius:16px;padding:24px 28px;list-style:none}
+.for-list li{padding-left:28px;position:relative;font-size:15px;color:var(--muted);line-height:1.6}
+.for-list li::before{content:'→';position:absolute;left:0;top:0;color:var(--accent);font-weight:700;font-family:'Space Mono',monospace}
+.for-list strong{color:var(--text);font-weight:500}
+
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.step-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px;
+  display:flex;flex-direction:column;gap:10px;transition:transform .2s,border-color .2s}
+.step-card:hover{transform:translateY(-2px);border-color:var(--border-2)}
+.step-num{font-family:'Space Mono',monospace;font-size:13px;color:var(--accent);letter-spacing:.12em;font-weight:700}
+.step-num.mcp{color:var(--green)}
+.step-title{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;line-height:1.2;color:var(--text);letter-spacing:-.005em}
+.step-desc{font-size:13px;color:var(--muted);line-height:1.55}
+.step-code{font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);
+  background:var(--surface-3);padding:8px 10px;border-radius:6px;border:1px solid var(--border);word-break:break-all;margin-top:auto}
+.step-code.mcp{color:var(--green)}
+
+.tips-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:40px}
+.tip{display:flex;gap:12px;padding:16px 18px;border-radius:12px;align-items:flex-start;font-size:13px;line-height:1.55}
+.tip-green{background:rgba(34,211,165,.06);border:1px solid rgba(34,211,165,.2);color:#cdcded}
+.tip-green strong{color:var(--green)}
+.tip-purple{background:rgba(167,139,250,.06);border:1px solid var(--border-2);color:#cdcded}
+.tip-purple strong{color:var(--accent)}
+.tip-icon{flex-shrink:0;margin-top:2px}
+
+.guide-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center}
+.btn-ghost{padding:18px 28px;border-radius:14px;background:transparent;border:1px solid var(--border-2);color:var(--text);
+  font-family:'Space Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  transition:all .2s;cursor:pointer}
+.btn-ghost:hover{background:var(--surface);border-color:var(--accent)}
+
+/* TELA 3 LANDING */
+.landing-header{position:sticky;top:0;z-index:50;background:rgba(7,8,15,.85);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.landing-header-inner{max-width:1280px;margin:0 auto;padding:18px 32px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px}
+.landing-logo{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;letter-spacing:.14em;color:var(--text);white-space:nowrap;cursor:pointer}
+.landing-logo span{color:var(--accent)}
+.landing-nav{display:flex;gap:28px;align-items:center}
+.landing-nav a{font-family:'Space Mono',monospace;font-size:12px;color:var(--muted);letter-spacing:.08em;
+  text-transform:uppercase;transition:color .2s;cursor:pointer}
+.landing-nav a:hover{color:var(--text)}
+.landing-cta-mini{padding:10px 18px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;
+  font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  box-shadow:0 8px 24px -8px rgba(108,99,255,.5);transition:filter .2s,transform .2s}
+.landing-cta-mini:hover{filter:brightness(1.1);transform:translateY(-1px)}
+
+.landing-hero{padding:120px 32px 100px;max-width:1280px;margin:0 auto;position:relative}
+.landing-hero::after{content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(167,139,250,.02) 3px,rgba(167,139,250,.02) 4px)}
+.landing-hero-inner{position:relative;z-index:1;max-width:960px}
+.landing-tag{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;
+  background:rgba(108,99,255,.08);border:1px solid var(--border-2);
+  font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);
+  letter-spacing:.16em;text-transform:uppercase;margin-bottom:32px}
+.landing-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);animation:pulse 2s infinite}
+.landing-hero h1{font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(44px,7vw,88px);line-height:1;letter-spacing:-.03em;margin-bottom:32px}
+.landing-hero h1 em{font-style:normal;background:linear-gradient(120deg,var(--accent),var(--primary));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.landing-hero-sub{font-size:20px;color:var(--muted);max-width:660px;line-height:1.6;margin-bottom:48px}
+.landing-hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:48px}
+.landing-hero-stats{display:flex;gap:8px;flex-wrap:wrap;font-family:'Space Mono',monospace;
+  font-size:12px;color:var(--muted-2);letter-spacing:.1em}
+.landing-hero-stats span{padding:8px 14px;background:var(--surface);border:1px solid var(--border);border-radius:999px}
+
+.landing-section{padding:96px 32px;max-width:1280px;margin:0 auto}
+.landing-section h2{font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(32px,5vw,52px);line-height:1.05;letter-spacing:-.02em;margin-bottom:16px;text-align:center}
+.landing-section h2 em{font-style:normal;background:linear-gradient(120deg,var(--accent),var(--primary));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.landing-section .sect-sub{text-align:center;color:var(--muted);font-size:17px;max-width:580px;margin:0 auto 56px;line-height:1.55}
+
+.who-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.who-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:32px;
+  transition:transform .25s,border-color .25s,background .25s}
+.who-card:hover{transform:translateY(-4px);border-color:var(--border-2);background:var(--surface-2)}
+.who-icon{font-size:36px;margin-bottom:16px;line-height:1}
+.who-card h3{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;margin-bottom:14px;letter-spacing:-.01em}
+.who-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.who-list li{font-size:14px;color:var(--muted);padding-left:20px;position:relative;line-height:1.5}
+.who-list li::before{content:'';position:absolute;left:0;top:9px;width:8px;height:1.5px;background:var(--accent)}
+
+.modules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:32px}
+.mod-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:28px;
+  position:relative;overflow:hidden;transition:transform .25s,border-color .25s}
+.mod-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),transparent);opacity:.6}
+.mod-card:hover{transform:translateY(-3px);border-color:var(--border-2)}
+.mod-tag{font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);
+  letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
+.mod-card h3{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;margin-bottom:12px;letter-spacing:-.01em}
+.mod-card p{color:var(--muted);font-size:14px;line-height:1.55}
+.bonus{background:linear-gradient(135deg,rgba(108,99,255,.08),rgba(167,139,250,.04));
+  border:1px solid var(--border-2);border-radius:18px;padding:28px}
+.bonus h3{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;margin-bottom:18px;letter-spacing:-.01em}
+.bonus-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.bonus-list li{padding-left:24px;position:relative;font-size:14px;color:var(--muted);line-height:1.5}
+.bonus-list li::before{content:'✓';position:absolute;left:0;top:0;color:var(--green);font-weight:700}
+
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.testi-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:28px}
+.testi-q{font-family:'Syne',sans-serif;font-weight:500;font-size:18px;line-height:1.45;color:var(--text);
+  margin-bottom:18px;font-style:italic}
+.testi-q::before{content:'"';color:var(--accent);font-size:32px;line-height:0;vertical-align:-12px;margin-right:4px}
+.testi-q::after{content:'"';color:var(--accent);font-size:32px;line-height:0;vertical-align:-12px;margin-left:2px}
+.testi-from{font-family:'Space Mono',monospace;font-size:12px;color:var(--muted-2);letter-spacing:.08em}
+
+.invest-card{background:linear-gradient(135deg,var(--surface),var(--surface-2));
+  border:1px solid var(--border-2);border-radius:24px;padding:48px;text-align:center;
+  max-width:720px;margin:0 auto;box-shadow:var(--shadow-glow)}
+.invest-price{font-family:'Syne',sans-serif;font-weight:800;font-size:80px;line-height:1;
+  background:linear-gradient(120deg,var(--accent),var(--primary));-webkit-background-clip:text;background-clip:text;color:transparent;
+  margin-bottom:8px}
+.invest-installment{font-family:'Space Mono',monospace;font-size:14px;color:var(--muted);
+  letter-spacing:.06em;margin-bottom:32px}
+.invest-list{list-style:none;display:flex;flex-direction:column;gap:8px;text-align:left;
+  margin:32px auto;max-width:480px}
+.invest-list li{padding-left:28px;position:relative;color:var(--text);font-size:15px;line-height:1.5}
+.invest-list li::before{content:'✓';position:absolute;left:0;top:0;color:var(--green);font-weight:700;font-size:16px}
+.invest-meta{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;
+  font-family:'Space Mono',monospace;font-size:12px;color:var(--muted-2);letter-spacing:.08em;margin-bottom:32px}
+
+.landing-footer{padding:48px 32px;text-align:center;border-top:1px solid var(--border);
+  font-family:'Space Mono',monospace;font-size:12px;color:var(--muted-2);letter-spacing:.06em}
+.landing-footer-links{display:flex;gap:20px;justify-content:center;margin:14px 0}
+.landing-footer-links a{color:var(--accent);transition:opacity .2s}
+.landing-footer-links a:hover{opacity:.7}
+
+/* TELA 4 LIBRARY */
+.lib-header{position:sticky;top:0;z-index:50;background:rgba(7,8,15,.92);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.lib-header-inner{max-width:1400px;margin:0 auto;padding:14px 24px;
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.lib-logo{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--text);white-space:nowrap}
+.lib-logo span{color:var(--accent)}
+.lib-tabs{display:flex;gap:4px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:3px}
+.lib-tab{padding:8px 16px;border-radius:7px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.lib-tab.active{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff}
+.lib-tab .count{font-size:10px;opacity:.8;background:rgba(0,0,0,.2);padding:1px 6px;border-radius:999px}
+.lib-tab.active .count{background:rgba(255,255,255,.2)}
+.lib-search{flex:1;min-width:160px;position:relative}
+.lib-search input{width:100%;padding:11px 16px 11px 40px;background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;transition:border-color .2s,box-shadow .2s}
+.lib-search input::placeholder{color:var(--muted-2)}
+.lib-search input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(167,139,250,.12)}
+.lib-search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted-2);pointer-events:none}
+.lib-user{display:inline-flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;background:var(--surface);
+  border:1px solid var(--border);border-radius:999px}
+.lib-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));
+  display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:#fff}
+.lib-user-name{font-family:'Space Mono',monospace;font-size:11px;color:var(--text);letter-spacing:.06em;text-transform:uppercase}
+.lib-back{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;
+  padding:8px 14px;border-radius:8px;border:1px solid var(--border);transition:all .2s}
+.lib-back:hover{color:var(--text);border-color:var(--border-2);background:var(--surface)}
+
+.lib-body{display:flex;max-width:1400px;margin:0 auto;width:100%;padding:0 24px;gap:24px;align-items:flex-start}
+.lib-sidebar{width:240px;flex-shrink:0;position:sticky;top:80px;padding:24px 0}
+.sidebar-title{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted-2);
+  letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px;padding:0 4px}
+.sidebar-list{list-style:none;display:flex;flex-direction:column;gap:2px}
+.sidebar-item{padding:10px 14px;border-radius:8px;font-size:13px;color:var(--muted);
+  display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:all .15s;
+  border-left:2px solid transparent}
+.sidebar-item:hover{color:var(--text);background:var(--surface)}
+.sidebar-item.active{color:var(--text);background:var(--surface-2);font-weight:500}
+.sidebar-item .sb-count{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted-2)}
+.sidebar-item.active .sb-count{color:var(--accent)}
+
+.lib-content{flex:1;min-width:0;padding:24px 0 64px}
+.lib-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px}
+.lib-results{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted-2);letter-spacing:.1em;text-transform:uppercase}
+.lib-progress{font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);
+  background:rgba(167,139,250,.08);padding:6px 12px;border-radius:999px;border:1px solid var(--border-2);
+  letter-spacing:.06em}
+
+.featured{background:linear-gradient(135deg,rgba(108,99,255,.1),rgba(167,139,250,.04));
+  border:1px solid var(--border-2);border-radius:16px;padding:22px 24px;margin-bottom:24px;
+  display:flex;align-items:center;gap:18px;cursor:pointer;transition:transform .2s,border-color .2s}
+.featured:hover{transform:translateY(-2px);border-color:var(--accent)}
+.featured-badge{font-family:'Space Mono',monospace;font-size:10px;color:var(--gold);
+  background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);
+  padding:4px 10px;border-radius:6px;letter-spacing:.14em;text-transform:uppercase;flex-shrink:0}
+.featured-content{flex:1;min-width:0}
+.featured-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--text);margin-bottom:4px}
+.featured-desc{font-size:13px;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.featured-arrow{flex-shrink:0;color:var(--accent)}
+
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.card{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;
+  display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:all .2s;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--card-color,var(--accent));opacity:.7}
+.card:hover{transform:translateY(-3px);border-color:var(--border-2);background:var(--surface-2);box-shadow:var(--shadow)}
+.card-name{font-family:'Space Mono',monospace;font-size:11px;color:var(--card-color,var(--accent));letter-spacing:.05em;
+  display:flex;align-items:center;gap:6px}
+.card-vip{color:var(--gold);font-size:10px;background:rgba(251,191,36,.12);padding:2px 6px;border-radius:4px;
+  letter-spacing:.1em;font-weight:700}
+.card-mcp{color:var(--accent);font-size:10px;background:rgba(167,139,250,.1);padding:2px 6px;border-radius:4px;letter-spacing:.1em;font-weight:700}
+.card-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;line-height:1.2;color:var(--text);letter-spacing:-.005em}
+.card-desc{font-size:13px;color:var(--muted);line-height:1.45;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.card-foot{display:flex;align-items:center;justify-content:space-between;padding-top:8px;border-top:1px solid var(--border);
+  font-family:'Space Mono',monospace;font-size:10px;color:var(--muted-2);letter-spacing:.06em}
+.card-actions{display:flex;gap:8px}
+.card-action{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;
+  color:var(--muted-2);transition:all .15s;border:1px solid transparent}
+.card-action:hover{color:var(--text);background:var(--surface-3)}
+.card-action.on-fav{color:#f472b6}
+.card-action.on-inst{color:var(--green)}
+
+.lib-empty{grid-column:1/-1;text-align:center;padding:96px 24px;color:var(--muted-2)}
+.lib-empty h3{font-family:'Syne',sans-serif;font-weight:700;font-size:24px;color:var(--text);margin-bottom:8px}
+
+/* MODAL */
+.modal{position:fixed;inset:0;z-index:200;display:none;align-items:flex-start;justify-content:center;
+  padding:48px 16px;background:rgba(7,8,15,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  overflow-y:auto;animation:fadeIn .25s ease-out}
+.modal.open{display:flex}
+.modal-card{background:var(--surface);border:1px solid var(--border-2);border-radius:18px;width:100%;max-width:760px;
+  box-shadow:var(--shadow);position:relative;animation:slideUp .25s ease-out}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-head{padding:32px 32px 20px;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.modal-head-text{flex:1;min-width:0}
+.modal-cat{display:inline-block;padding:5px 12px;border-radius:999px;
+  font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px;
+  border:1px solid currentColor}
+.modal-name-tag{font-family:'Space Mono',monospace;font-size:13px;margin-bottom:6px}
+.modal-title{font-family:'Syne',sans-serif;font-weight:800;font-size:30px;line-height:1.1;letter-spacing:-.02em;color:var(--text);margin-bottom:12px}
+.modal-desc{font-size:15px;color:var(--muted);line-height:1.55}
+.modal-close{width:36px;height:36px;border-radius:10px;background:var(--surface-2);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .2s;flex-shrink:0;cursor:pointer}
+.modal-close:hover{color:var(--text);border-color:var(--border-2)}
+.modal-body{padding:24px 32px}
+.modal-row{display:flex;flex-direction:column;gap:6px;margin-bottom:20px}
+.modal-row-label{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted-2);letter-spacing:.14em;text-transform:uppercase}
+.modal-row-val{font-size:14px;color:var(--text);line-height:1.5}
+.modal-pills{display:flex;flex-wrap:wrap;gap:6px}
+.modal-pill{padding:5px 12px;border-radius:999px;background:rgba(167,139,250,.06);border:1px solid var(--border);
+  font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)}
+.modal-code{background:var(--surface-3);padding:14px 16px;border-radius:10px;border:1px solid var(--border);
+  font-family:'Space Mono',monospace;font-size:13px;color:var(--accent);word-break:break-all;line-height:1.5}
+.modal-actions{display:flex;gap:8px;flex-wrap:wrap;padding:0 32px 32px}
+.btn-modal{padding:13px 20px;border-radius:10px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;display:inline-flex;align-items:center;gap:8px;transition:all .2s;cursor:pointer}
+.btn-modal-primary{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;box-shadow:var(--shadow)}
+.btn-modal-primary:hover{transform:translateY(-1px);filter:brightness(1.1)}
+.btn-modal-secondary{background:var(--surface-2);border:1px solid var(--border);color:var(--text)}
+.btn-modal-secondary:hover{border-color:var(--border-2)}
+.btn-modal.copied{background:var(--green);color:#0a1d18}
+
+/* MOBILE */
+@media (max-width:768px){
+  #tela-1{padding:32px 18px}
+  .entry-card h1{font-size:38px}
+  .entry-form{flex-direction:column}
+  .entry-form input,.btn-cta{width:100%;justify-content:center}
+  .entry-stats{gap:18px;font-size:11px}
+  #tela-2{padding:32px 18px}
+  .guide-section h3{font-size:24px}
+  .tips-grid{grid-template-columns:1fr}
+  .guide-actions .btn-cta,.guide-actions .btn-ghost{width:100%;justify-content:center}
+  .landing-header-inner{padding:14px 18px;gap:12px}
+  .landing-nav{display:none}
+  .landing-hero{padding:64px 18px 64px}
+  .landing-hero h1{font-size:42px}
+  .landing-hero-sub{font-size:16px}
+  .landing-section{padding:64px 18px}
+  .invest-card{padding:32px 22px}
+  .invest-price{font-size:56px}
+  .lib-header-inner{padding:12px 16px}
+  .lib-tabs{order:3}
+  .lib-search{order:4;flex-basis:100%}
+  .lib-user-name{display:none}
+  .lib-body{flex-direction:column;padding:0 16px;gap:0}
+  .lib-sidebar{width:100%;position:static;padding:16px 0;border-bottom:1px solid var(--border)}
+  .sidebar-list{display:flex;flex-wrap:wrap;gap:6px}
+  .sidebar-item{flex:0 0 auto;padding:7px 12px;font-size:12px;border-radius:999px;border:1px solid var(--border);border-left-width:1px}
+  .sidebar-item.active{border-color:var(--accent)}
+  .lib-content{padding:16px 0 48px}
+  .cards-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .card{padding:16px}
+  .modal{padding:16px}
+  .modal-head,.modal-body,.modal-actions{padding-left:20px;padding-right:20px}
+  .modal-title{font-size:24px}
+}
+@media (max-width:480px){
+  .cards-grid{grid-template-columns:1fr}
+  .featured{flex-direction:column;align-items:flex-start;gap:10px}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orb"></div>
+
+<!-- TELA 1 -->
+<section id="tela-1" class="screen active">
+  <div class="entry-card">
+    <span class="entry-badge"><span class="dot"></span>The AI Pipeline · Biblioteca Exclusiva</span>
+    <h1>Sua Biblioteca<br>de <em>IA Pessoal</em></h1>
+    <p class="entry-sub">200+ skills instaláveis, 30 MCPs prontos e crescendo todo dia. Acesso exclusivo para alunos.</p>
+    <form class="entry-form" id="entry-form" autocomplete="off">
+      <input type="text" id="entry-name" placeholder="Como posso te chamar?" required maxlength="40" autofocus>
+      <button type="submit" class="btn-cta">Acessar →</button>
+    </form>
+    <div class="entry-stats">
+      <span><strong>222</strong>Skills</span>
+      <span><strong>30</strong>MCPs</span>
+      <span><strong>13</strong>Áreas</span>
+      <span><strong>·</strong>Diário</span>
+    </div>
+  </div>
+</section>
+
+<!-- TELA 2 -->
+<section id="tela-2" class="screen">
+  <div class="guide-wrap">
+    <p class="guide-greet">Bem-vindo, <span id="guide-name">Visitante</span></p>
+    <h1 class="guide-h1">The AI Pipeline · <em>Biblioteca</em></h1>
+    <p class="guide-intro">Aqui você tem acesso ao mesmo sistema de IA que uso no dia a dia. Antes de entrar na biblioteca, vale entender o que tem ali e como instalar.</p>
+
+    <!-- O que tem aqui -->
+    <div class="guide-section">
+      <span class="guide-section-title">O que tem aqui</span>
+      <div class="what-grid">
+        <div class="what-card skills">
+          <span class="what-tag">Skills · 222</span>
+          <h4>Skills</h4>
+          <p>São <strong>prompts estruturados</strong> que viram especialistas dentro do Claude. Você instala e o Claude passa a "saber" de eventos, música, marketing, automação, segurança, Adobe — tudo com a mesma metodologia que aplico nos meus projetos.</p>
+        </div>
+        <div class="what-card mcps">
+          <span class="what-tag">MCPs · 30</span>
+          <h4>MCPs</h4>
+          <p>Plugins que dão <strong>superpoderes</strong> ao Claude. Ler arquivos do seu computador, mandar email, acessar Google Calendar, gerar imagens, transcrever áudio, controlar GitHub. Tudo conectado direto na conversa.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Para quem é -->
+    <div class="guide-section">
+      <span class="guide-section-title">Pra quem e pra quê</span>
+      <ul class="for-list">
+        <li><strong>Para criativos</strong> que cansaram de explicar o trabalho pro Claude todo dia. Instala uma vez, funciona pra sempre.</li>
+        <li><strong>Para empreendedores</strong> que querem automatizar processos sem virar dev. Os MCPs fazem o Claude operar suas ferramentas.</li>
+        <li><strong>Para alunos da mentoria</strong> que querem o sistema completo já montado, exatamente como uso na minha rotina.</li>
+        <li><strong>Para quem produz música, eventos ou conteúdo</strong> e precisa de um time inteiro de IA, não de uma IA genérica.</li>
+      </ul>
+    </div>
+
+    <!-- Como instalar Skills -->
+    <div class="guide-section">
+      <span class="guide-section-title">Como instalar Skills</span>
+      <h3>Skills · prompts que viram especialistas</h3>
+      <div class="steps-grid">
+        <div class="step-card">
+          <span class="step-num">01</span>
+          <h4 class="step-title">Baixe o ZIP</h4>
+          <p class="step-desc">Escolha a skill na biblioteca e clique em "Abrir no Drive" pra baixar o ZIP.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num">02</span>
+          <h4 class="step-title">Abra o Claude Desktop</h4>
+          <p class="step-desc">Versão com Computer Use ativado.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num">03</span>
+          <h4 class="step-title">Arraste o ZIP</h4>
+          <p class="step-desc">Envie o ZIP na conversa.</p>
+          <code class="step-code">"Instale os skills do ZIP que enviei"</code>
+        </div>
+        <div class="step-card">
+          <span class="step-num">04</span>
+          <h4 class="step-title">Claude instala</h4>
+          <p class="step-desc">Ele descompacta e move pra pasta de skills do usuário.</p>
+          <code class="step-code">/mnt/skills/user/[nome]/SKILL.md</code>
+        </div>
+        <div class="step-card">
+          <span class="step-num">05</span>
+          <h4 class="step-title">Confirme</h4>
+          <p class="step-desc">Peça a lista de skills instalados.</p>
+          <code class="step-code">"Liste os skills instalados"</code>
+        </div>
+        <div class="step-card">
+          <span class="step-num">06</span>
+          <h4 class="step-title">Use naturalmente</h4>
+          <p class="step-desc">Converse normalmente. O Claude ativa o skill certo no contexto.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Como instalar MCPs -->
+    <div class="guide-section">
+      <span class="guide-section-title">Como instalar MCPs</span>
+      <h3>MCPs · plugins que dão superpoderes</h3>
+      <div class="steps-grid">
+        <div class="step-card">
+          <span class="step-num mcp">01</span>
+          <h4 class="step-title">Abra Claude Desktop</h4>
+          <p class="step-desc">Vá em Settings → Developer → Edit Config (abre o claude_desktop_config.json).</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num mcp">02</span>
+          <h4 class="step-title">Copie o snippet</h4>
+          <p class="step-desc">Na biblioteca, clique no MCP → "Abrir no Drive" e pegue o JSON do servidor.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num mcp">03</span>
+          <h4 class="step-title">Cole no config</h4>
+          <p class="step-desc">Adicione o servidor dentro de mcpServers do JSON.</p>
+          <code class="step-code mcp">"mcpServers": {"name": {"command": "npx", "args": [...]}}</code>
+        </div>
+        <div class="step-card">
+          <span class="step-num mcp">04</span>
+          <h4 class="step-title">Configure credenciais</h4>
+          <p class="step-desc">Alguns MCPs pedem API key. Preencha nas variáveis de ambiente do JSON.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num mcp">05</span>
+          <h4 class="step-title">Reinicie o Claude</h4>
+          <p class="step-desc">Feche e abra de novo pra carregar o servidor MCP.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num mcp">06</span>
+          <h4 class="step-title">Use as ferramentas</h4>
+          <p class="step-desc">Confira o ícone de plug. Peça pro Claude usar a ferramenta nova.</p>
+          <code class="step-code mcp">"Liste os arquivos da pasta Documents"</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip tip-green">
+        <svg class="tip-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/></svg>
+        <div><strong>Para múltiplos packs:</strong> baixe todos, coloque numa pasta, zipe tudo e faça 1 upload só pro Claude.</div>
+      </div>
+      <div class="tip tip-purple">
+        <svg class="tip-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        <div><strong>Skill do dia:</strong> use o skill-daily-generator todo dia. "Me sugira o skill do dia."</div>
+      </div>
+    </div>
+
+    <div class="guide-actions">
+      <button class="btn-cta" onclick="goToScreen(4)">Entrar na biblioteca →</button>
+      <a class="btn-ghost" href="https://drive.google.com/drive/folders/1XQXKiPB226pTnTUeYtpeBKEDX46WlWS7?usp=drive_link" target="_blank" rel="noopener">Abrir Drive ↗</a>
+      <button class="btn-ghost" onclick="goToScreen(4)">Pular</button>
+    </div>
+  </div>
+</section>
+
+<!-- TELA 3 LANDING -->
+<section id="tela-3" class="screen">
+  <header class="landing-header">
+    <div class="landing-header-inner">
+      <a class="landing-logo" onclick="goToScreen(1)">THE AI <span>PIPELINE</span></a>
+      <nav class="landing-nav">
+        <a href="#sobre">Sobre</a>
+        <a href="#conteudo">Conteúdo</a>
+        <a href="#investimento">Investimento</a>
+      </nav>
+      <a href="#investimento" class="landing-cta-mini">Quero entrar</a>
+    </div>
+  </header>
+
+  <section class="landing-hero">
+    <div class="landing-hero-inner">
+      <span class="landing-tag"><span class="dot"></span>Mentoria Intensiva · Próxima turma limitada</span>
+      <h1>Aprenda IA do jeito<br>que <em>profissionais</em> usam.</h1>
+      <p class="landing-hero-sub">Para músicos, produtores de eventos e criativos que querem escalar o trabalho sem escalar a equipe. Em 4 semanas.</p>
+      <div class="landing-hero-ctas">
+        <a href="#investimento" class="btn-cta">Garantir minha vaga →</a>
+        <a href="#conteudo" class="btn-ghost">Ver o conteúdo ↓</a>
+      </div>
+      <div class="landing-hero-stats">
+        <span>4 semanas</span><span>30 alunos</span><span>R$ 1.800</span><span>Discord exclusivo</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="landing-section" id="sobre">
+    <h2>Para quem <em>é</em>?</h2>
+    <p class="sect-sub">Três perfis, um objetivo: dominar IA aplicada ao trabalho real.</p>
+    <div class="who-grid">
+      <div class="who-card">
+        <div class="who-icon">🎵</div>
+        <h3>Músicos e Produtores</h3>
+        <ul class="who-list">
+          <li>Criar artistas virtuais com IA</li>
+          <li>Automatizar lançamentos no Spotify</li>
+          <li>Produzir com Suno, Kling, Freepik Space</li>
+        </ul>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">🎪</div>
+        <h3>Produtores de Eventos</h3>
+        <ul class="who-list">
+          <li>Planejar eventos com agentes IA</li>
+          <li>Marketing automatizado e ingresso inteligente</li>
+          <li>Sistemas de patrocínio e operação</li>
+        </ul>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">🚀</div>
+        <h3>Empreendedores Criativos</h3>
+        <ul class="who-list">
+          <li>Construir agentes IA personalizados</li>
+          <li>Automatizar funil de vendas do zero</li>
+          <li>Criar e lançar curso com IA</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="landing-section" id="conteudo">
+    <h2>O que você <em>aprende</em></h2>
+    <p class="sect-sub">4 semanas, 4 transformações. Cada semana você sai com um sistema funcionando.</p>
+    <div class="modules-grid">
+      <div class="mod-card">
+        <span class="mod-tag">Semana 1</span>
+        <h3>Fundação</h3>
+        <p>Ferramentas de IA, prompts profissionais e primeiros agentes. Sair sabendo usar Claude, ChatGPT, Perplexity e Cursor.</p>
+      </div>
+      <div class="mod-card">
+        <span class="mod-tag">Semana 2</span>
+        <h3>Produção</h3>
+        <p>Criar música, vídeo e conteúdo com IA de ponta a ponta. Suno, Kling, Freepik Space, ElevenLabs na prática.</p>
+      </div>
+      <div class="mod-card">
+        <span class="mod-tag">Semana 3</span>
+        <h3>Automação</h3>
+        <p>n8n, WhatsApp Bot, funil de vendas e CRM automatizados. Seu negócio operando com menos intervenção manual.</p>
+      </div>
+      <div class="mod-card">
+        <span class="mod-tag">Semana 4</span>
+        <h3>Escala</h3>
+        <p>Lançar produto, criar sistema de curso e crescer com IA. Projeto final: seu produto ou processo automatizado.</p>
+      </div>
+    </div>
+    <div class="bonus">
+      <h3>Bônus inclusos</h3>
+      <ul class="bonus-list">
+        <li>Acesso à Biblioteca com 200+ skills</li>
+        <li>30 MCPs prontos para instalar</li>
+        <li>Discord exclusivo com comunidade ativa</li>
+        <li>Gravações de todas as aulas</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="landing-section">
+    <h2>Quem <em>já passou</em></h2>
+    <p class="sect-sub">Resultados reais de alunos das primeiras turmas.</p>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <p class="testi-q">Antes levava 3 dias pra criar um clipe. Agora faço em 4 horas com a mesma qualidade.</p>
+        <p class="testi-from">— Produtor Musical, SP</p>
+      </div>
+      <div class="testi-card">
+        <p class="testi-q">Automatizei o WhatsApp de vendas e parei de responder manualmente. As vendas continuam.</p>
+        <p class="testi-from">— Produtor de Eventos, MG</p>
+      </div>
+      <div class="testi-card">
+        <p class="testi-q">Criei meu primeiro artista virtual na semana 2. Já tem 800 plays no Spotify.</p>
+        <p class="testi-from">— DJ e Produtor, RJ</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="landing-section" id="investimento">
+    <h2>Investimento</h2>
+    <p class="sect-sub">Tudo incluso. Sem cobrança extra, sem upsell escondido.</p>
+    <div class="invest-card">
+      <div class="invest-price">R$ 1.800</div>
+      <p class="invest-installment">ou 12x de R$ 165</p>
+      <ul class="invest-list">
+        <li>4 semanas de mentoria ao vivo</li>
+        <li>Gravações de todas as sessões</li>
+        <li>Biblioteca com 200+ skills instaláveis</li>
+        <li>30 MCPs prontos</li>
+        <li>Discord exclusivo vitalício</li>
+        <li>Suporte direto via WhatsApp</li>
+      </ul>
+      <div class="invest-meta">
+        <span>Máximo 30 alunos</span>
+        <span>Garantia de 7 dias</span>
+        <span>Reembolso integral</span>
+      </div>
+      <a href="#" class="btn-cta">Garantir minha vaga →</a>
+    </div>
+  </section>
+
+  <footer class="landing-footer">
+    <p>The AI Pipeline · by Caio Monteiro</p>
+    <div class="landing-footer-links">
+      <a href="#">Instagram</a><a href="#">WhatsApp</a><a href="#">Discord</a>
+    </div>
+    <p>© 2026 Monteiro Music. Todos os direitos reservados.</p>
+  </footer>
+</section>
+
+<!-- TELA 4 -->
+<section id="tela-4" class="screen">
+  <header class="lib-header">
+    <div class="lib-header-inner">
+      <span class="lib-logo">THE AI <span>PIPELINE</span> // BIBLIOTECA</span>
+      <div class="lib-tabs">
+        <button class="lib-tab active" data-tab="skills" onclick="switchTab('skills')">Skills <span class="count" id="tab-count-skills">0</span></button>
+        <button class="lib-tab" data-tab="mcps" onclick="switchTab('mcps')">MCPs <span class="count" id="tab-count-mcps">0</span></button>
+      </div>
+      <div class="lib-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="lib-search" placeholder="Buscar..." autocomplete="off">
+      </div>
+      <div class="lib-user">
+        <div class="lib-avatar" id="lib-avatar">?</div>
+        <span class="lib-user-name" id="lib-user-name">Visitante</span>
+      </div>
+      <a class="lib-back" href="https://drive.google.com/drive/folders/1XQXKiPB226pTnTUeYtpeBKEDX46WlWS7?usp=drive_link" target="_blank" rel="noopener" style="color:var(--accent);border-color:var(--border-2)">Drive ↗</a>
+      <button class="lib-back" onclick="goToScreen(2)">← Guia</button>
+    </div>
+  </header>
+  <div class="lib-body">
+    <aside class="lib-sidebar">
+      <p class="sidebar-title">Categorias</p>
+      <ul class="sidebar-list" id="sidebar-list"></ul>
+    </aside>
+    <div class="lib-content">
+      <div class="lib-toolbar">
+        <span class="lib-results" id="lib-results">0 resultados</span>
+        <span class="lib-progress" id="lib-progress">0 de 0 instalados</span>
+      </div>
+      <div id="featured-area"></div>
+      <div class="cards-grid" id="cards-grid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" onclick="if(event.target===this)closeModal()">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div class="modal-head-text">
+        <span class="modal-cat" id="m-cat"></span>
+        <p class="modal-name-tag" id="m-name"></p>
+        <h2 class="modal-title" id="m-title"></h2>
+        <p class="modal-desc" id="m-desc"></p>
+      </div>
+      <button class="modal-close" onclick="closeModal()" aria-label="Fechar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="m-body"></div>
+    <div class="modal-actions">
+      <a class="btn-modal btn-modal-primary" id="m-drive" target="_blank" rel="noopener">Abrir no Drive ↗</a>
+      <button class="btn-modal btn-modal-secondary" id="m-copy">Copiar prompt</button>
+      <button class="btn-modal btn-modal-secondary" onclick="closeModal()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const DRIVE_URL = "https://drive.google.com/drive/folders/1XQXKiPB226pTnTUeYtpeBKEDX46WlWS7?usp=drive_link";
+const SKILLS=[{"n":"deep-research","t":"Pesquisa Profunda","d":"Pesquisa completa com fontes, dados e síntese executiva.","a":"operacao","c":"competitor-intel,market-pulse","v":false},{"n":"competitor-intel","t":"Inteligência Competitiva","d":"Análise de concorrentes: posicionamento, preço e oportunidades.","a":"operacao","c":"deep-research,market-pulse","v":false},{"n":"market-pulse","t":"Pulso de Mercado","d":"Tendências e oportunidades emergentes em qualquer segmento.","a":"operacao","c":"deep-research,trend-radar","v":false},{"n":"person-research","t":"Pesquisa de Pessoa","d":"Dossier completo de prospect antes de reunião importante.","a":"operacao","c":"deep-research,negotiation-prep","v":false},{"n":"email-pro","t":"Email Profissional","d":"Emails de qualquer tipo no tom certo — cobrança, proposta, follow-up.","a":"operacao","c":"message-direct,proposal-builder","v":false},{"n":"message-direct","t":"Mensagem Direta","d":"WhatsApp, DM, Telegram — curto, claro, no tom certo.","a":"operacao","c":"email-pro,closing-message","v":false},{"n":"doc-writer","t":"Redação de Documentos","d":"Contratos simples, atas, comunicados, declarações.","a":"operacao","c":"email-pro,sop-builder","v":false},{"n":"rewriter","t":"Reescrita","d":"Pega qualquer texto ruim e devolve versão clara e fluida.","a":"operacao","c":"email-pro,doc-writer","v":false},{"n":"translator-adapt","t":"Tradução + Adaptação","d":"Traduz e adapta culturalmente para PT, EN, ES.","a":"operacao","c":"email-pro,rewriter","v":false},{"n":"proposal-builder","t":"Proposta Comercial","d":"Proposta completa: problema, solução, valor, escopo e preço.","a":"operacao","c":"pitch-script,negotiation-prep","v":false},{"n":"pitch-script","t":"Script de Pitch","d":"Roteiro de pitch verbal com abertura, desenvolvimento e fechamento.","a":"operacao","c":"proposal-builder,objection-handler","v":false},{"n":"objection-handler","t":"Contorno de Objeções","d":"Respostas prontas para objeção de preço, prazo ou necessidade.","a":"operacao","c":"pitch-script,negotiation-prep","v":false},{"n":"followup-sequence","t":"Sequência de Follow-up","d":"Cadência de follow-up sem soar chato ou desesperado.","a":"operacao","c":"email-pro,closing-message","v":false},{"n":"negotiation-prep","t":"Prep de Negociação","d":"Estratégia, argumentos e BATNA para qualquer negociação.","a":"operacao","c":"pitch-script,objection-handler","v":false},{"n":"budget-builder","t":"Montagem de Orçamento","d":"Orçamento completo com custos, margem, impostos e total.","a":"operacao","c":"pricing-calc,cost-breakdown","v":false},{"n":"pricing-calc","t":"Calculadora de Preço","d":"Define preço de venda com base em custo, margem e mercado.","a":"operacao","c":"budget-builder,roi-calculator","v":false},{"n":"cost-breakdown","t":"Breakdown de Custos","d":"Desmembra custos de produção linha a linha.","a":"operacao","c":"budget-builder,pricing-calc","v":false},{"n":"roi-calculator","t":"Calculadora de ROI","d":"Calcula e apresenta retorno sobre investimento.","a":"operacao","c":"budget-builder,cost-breakdown","v":false},{"n":"invoice-gen","t":"Gerador de Invoice","d":"Invoice e recibo profissional com todos os campos.","a":"operacao","c":"budget-builder,doc-writer","v":false},{"n":"project-breakdown","t":"Breakdown de Projeto","d":"Divide projeto em tarefas, responsáveis e prazos.","a":"operacao","c":"meeting-notes,deadline-manager","v":false},{"n":"meeting-notes","t":"Ata de Reunião","d":"Transforma anotações brutas em ata estruturada.","a":"operacao","c":"project-breakdown,sop-builder","v":false},{"n":"sop-builder","t":"Criador de SOP","d":"Procedimento operacional padrão para qualquer processo.","a":"operacao","c":"project-breakdown,brief-creator","v":false},{"n":"brief-creator","t":"Criador de Brief","d":"Brief completo para qualquer demanda interna.","a":"operacao","c":"sop-builder,project-breakdown","v":false},{"n":"report-builder","t":"Relatório Executivo","d":"Relatório de resultados direto, visual e decisório.","a":"operacao","c":"project-breakdown,data-report-visual","v":false},{"n":"caption-engine","t":"Motor de Legendas","d":"Legendas para Instagram, TikTok, LinkedIn com gancho e CTA.","a":"operacao","c":"content-calendar,brand-voice","v":false},{"n":"content-calendar","t":"Calendário de Conteúdo","d":"Grade mensal com temas, formatos e datas estratégicas.","a":"operacao","c":"caption-engine,ad-copy","v":false},{"n":"ad-copy","t":"Copy de Anúncio","d":"Copy para Meta Ads e Google Ads com headline e CTA.","a":"operacao","c":"brand-voice,hook-factory","v":false},{"n":"brand-voice","t":"Voz de Marca","d":"Define tom, linguagem e personalidade de qualquer marca.","a":"operacao","c":"content-calendar,ad-copy","v":false},{"n":"hook-factory","t":"Fábrica de Ganchos","d":"Gera 10 ganchos de abertura para post, vídeo ou email.","a":"operacao","c":"caption-engine,ad-copy","v":false},{"n":"video-script","t":"Roteiro de Vídeo","d":"Roteiro completo para talking head, reels e institucional.","a":"operacao","c":"brand-voice,event-rundown","v":false},{"n":"event-rundown","t":"Rundown de Evento","d":"Timeline minuto a minuto de qualquer tipo de evento.","a":"operacao","c":"sop-builder,event-rundown-pro","v":false},{"n":"sponsorship-deck","t":"Deck de Patrocínio","d":"Estrutura e copy de proposta de patrocínio com cotas.","a":"operacao","c":"proposal-builder,brand-voice","v":false},{"n":"press-release","t":"Release de Imprensa","d":"Nota de imprensa profissional para lançamentos e eventos.","a":"operacao","c":"brand-voice,press-kit-music","v":false},{"n":"prompt-engineer","t":"Engenheiro de Prompts","d":"Converte qualquer instrução vaga em prompt otimizado para IA.","a":"operacao","c":"brand-voice,ai-creative-director","v":false},{"n":"idea-expander","t":"Expansor de Ideias","d":"Pega 1 ideia e devolve 10 derivações com caminho de execução.","a":"operacao","c":"prompt-engineer,market-pulse","v":false},{"n":"persona-builder","t":"Construtor de Persona","d":"Persona detalhada com dores, desejos e comportamento.","a":"operacao","c":"brand-voice,content-calendar","v":false},{"n":"faq-builder","t":"Construtor de FAQ","d":"FAQ completo antecipando dúvidas reais do público.","a":"operacao","c":"doc-writer,brief-creator","v":false},{"n":"closing-message","t":"Mensagem de Fechamento","d":"A mensagem certa para converter sem pressionar.","a":"operacao","c":"followup-sequence,message-direct","v":false},{"n":"artist-brief","t":"Brief de Artista","d":"Brief de rider e requirements para show ou produção musical.","a":"operacao","c":"event-rundown,music-contract","v":false},{"n":"split-sheet","t":"Split Sheet","d":"Divisão de direitos entre compositores e produtores.","a":"musica","c":"copyright-register,music-contract","v":false},{"n":"copyright-register","t":"Registro de Obra","d":"Passo a passo para ECAD, Biblioteca Nacional e eCPF.","a":"musica","c":"split-sheet,ecad-guide","v":false},{"n":"music-contract","t":"Contrato Musical","d":"Minutas para cachê, parceria e cessão de direitos.","a":"musica","c":"split-sheet,negotiation-prep","v":false},{"n":"sample-clearance","t":"Clearance de Sample","d":"Autorização para uso de trecho de outra obra.","a":"musica","c":"music-contract,copyright-register","v":false},{"n":"mastering-brief","t":"Brief de Masterização","d":"Brief técnico com loudness alvo por plataforma.","a":"musica","c":"metadata-setup,delivery-checklist","v":false},{"n":"metadata-setup","t":"Setup de Metadados","d":"ISRC, UPC, compositores e tags. Erros aqui bloqueiam royalties.","a":"musica","c":"delivery-checklist,distro-router","v":false},{"n":"stems-organizer","t":"Organizador de Stems","d":"Nomenclatura e bounce de stems para sync e remix.","a":"musica","c":"mastering-brief,delivery-checklist","v":false},{"n":"artwork-specs","t":"Specs de Arte de Capa","d":"Dimensões e formato por plataforma: Spotify, Apple, YouTube.","a":"musica","c":"metadata-setup,delivery-checklist","v":false},{"n":"delivery-checklist","t":"Checklist de Entrega","d":"Tudo que precisa estar pronto antes de subir a música.","a":"musica","c":"metadata-setup,artwork-specs","v":false},{"n":"distro-router","t":"Escolha de Distribuidora","d":"Comparativo: ONErpm, Distrokid, TuneCore por perfil.","a":"musica","c":"release-setup,metadata-setup","v":false},{"n":"release-setup","t":"Setup de Release","d":"Upload na distribuidora: campos, data e pré-save.","a":"musica","c":"distro-router,metadata-setup","v":false},{"n":"content-id-setup","t":"Setup de Content ID","d":"Monetização via Content ID no YouTube.","a":"musica","c":"release-setup,royalty-tracker","v":false},{"n":"spotify-pitch","t":"Pitch Editorial Spotify","d":"Preencher o pitch para playlist editorial. Janela de 7 dias.","a":"musica","c":"release-setup,playlist-pitch","v":false},{"n":"playlist-pitch","t":"Pitch para Curadoras","d":"Abordagem para curadoras via SubmitHub e Groover.","a":"musica","c":"spotify-pitch,release-strategy","v":false},{"n":"release-strategy","t":"Estratégia de Lançamento","d":"Plano D-30 a D+14: teaser, pre-save e pós-lançamento.","a":"musica","c":"spotify-pitch,organic-music-growth","v":false},{"n":"press-kit-music","t":"Press Kit Musical","d":"Bio, foto, links e stats para imprensa e booking.","a":"musica","c":"release-strategy,organic-music-growth","v":false},{"n":"sync-pitch","t":"Pitch de Sync","d":"Enviar música para supervisores de trilha: TV, cinema.","a":"musica","c":"press-kit-music,music-contract","v":false},{"n":"organic-music-growth","t":"Crescimento Orgânico","d":"TikTok, Reels e Shorts — hooks de áudio e timing.","a":"musica","c":"release-strategy,dsp-analytics","v":false},{"n":"dsp-analytics","t":"Analytics DSP","d":"Spotify for Artists e YouTube Analytics para decisões.","a":"musica","c":"organic-music-growth,royalty-tracker","v":false},{"n":"royalty-tracker","t":"Tracker de Royalties","d":"Acompanhamento de royalties por plataforma e período.","a":"musica","c":"ecad-guide,dsp-analytics","v":false},{"n":"melody-builder","t":"Construtor de Melodia","d":"Contornos melódicos por gênero com tensão e resolução.","a":"producao","c":"hook-composer,chord-progression","v":false},{"n":"lyric-craft","t":"Craft de Letra","d":"Letra com métrica, rima e narrativa emocional por gênero.","a":"producao","c":"melody-builder,hook-composer","v":false},{"n":"chord-progression","t":"Progressões de Acordes","d":"Progressões por gênero com cifras e substituições.","a":"producao","c":"melody-builder,arrangement-guide","v":false},{"n":"hook-composer","t":"Compositor de Hook","d":"Hook perfeito: melodia de refrão e earworm effect.","a":"producao","c":"melody-builder,lyric-craft","v":false},{"n":"rhythm-pattern","t":"Padrões Rítmicos","d":"Células rítmicas por gênero: baião, funk, arrocha.","a":"producao","c":"bpm-tempo-guide,arrangement-guide","v":false},{"n":"bpm-tempo-guide","t":"Guia de BPM","d":"BPMs ideais por gênero e emoção. Sertanejo, funk, forró.","a":"producao","c":"rhythm-pattern,arrangement-guide","v":false},{"n":"arrangement-guide","t":"Guia de Arranjo","d":"Estrutura completa: intro, verso, refrão e outro.","a":"producao","c":"rhythm-pattern,mix-template","v":false},{"n":"beat-reference","t":"Referências de Beat","d":"Anatomia do beat por estilo: funk, trap, pisadinha.","a":"producao","c":"rhythm-pattern,mix-template","v":false},{"n":"vocal-tone-director","t":"Diretor de Tom Vocal","d":"Tom vocal ideal por gênero: rasgado, nasal, grave.","a":"producao","c":"vocal-melody-fit,vocal-chain","v":false},{"n":"vocal-melody-fit","t":"Adequação Melódica","d":"Adapta melodia à tessitura real do artista.","a":"producao","c":"vocal-tone-director,melody-builder","v":false},{"n":"adlib-design","t":"Design de Adlibs","d":"Adlibs, runs e ornamentos vocais por gênero.","a":"producao","c":"vocal-tone-director,vocal-chain","v":false},{"n":"vocal-session-guide","t":"Guia de Sessão Vocal","d":"Setup de microfone, aquecimento e takes strategy.","a":"producao","c":"vocal-tone-director,adlib-design","v":false},{"n":"mix-template","t":"Template de Mix","d":"EQ, compressão e hierarquia de elementos por gênero.","a":"producao","c":"vocal-chain,low-end-guide","v":false},{"n":"vocal-chain","t":"Chain de Vocal","d":"Gate, EQ, comp, saturação, de-esser, reverb por estilo.","a":"producao","c":"mix-template,fx-design","v":false},{"n":"low-end-guide","t":"Guia de Grave","d":"Kick vs bass, sidechain e frequências de impacto.","a":"producao","c":"mix-template,mastering-guide","v":false},{"n":"fx-design","t":"Design de Efeitos","d":"Reverb, delay, saturação por gênero e posição na mix.","a":"producao","c":"mix-template,vocal-chain","v":false},{"n":"mastering-guide","t":"Guia de Masterização","d":"EQ linear, multibanda e limiting por gênero.","a":"producao","c":"loudness-targets,mix-template","v":false},{"n":"loudness-targets","t":"Targets de Loudness","d":"LUFS por plataforma: Spotify -14, Apple -16, YT -14.","a":"producao","c":"mastering-guide,mastering-brief","v":false},{"n":"trend-sound-scanner","t":"Scanner de Tendências","d":"BPM emergente, instrumentação em alta e fusões.","a":"producao","c":"genre-fusion-guide,trend-radar","v":false},{"n":"genre-fusion-guide","t":"Guia de Fusão de Gêneros","d":"Combinar dois gêneros de forma orgânica e comercial.","a":"producao","c":"trend-sound-scanner,arrangement-guide","v":false},{"n":"event-naming","t":"Criação de Nome","d":"Nome de evento com conceito e posicionamento. Sem genérico.","a":"eventos","c":"event-concept,brand-voice","v":false},{"n":"event-concept","t":"Conceito de Evento","d":"Proposta de valor, estética e narrativa do evento.","a":"eventos","c":"event-naming,event-positioning","v":false},{"n":"event-positioning","t":"Posicionamento","d":"Onde o evento se encaixa: público, ticket e diferenciação.","a":"eventos","c":"event-concept,competitor-intel","v":false},{"n":"event-market-research","t":"Pesquisa de Mercado","d":"Mapa de eventos na praça, datas e oportunidades.","a":"eventos","c":"event-concept,audience-persona-event","v":false},{"n":"audience-persona-event","t":"Persona do Público","d":"Frequentador: faixa etária, renda e motivação.","a":"eventos","c":"event-market-research,persona-builder","v":false},{"n":"date-calendar-strategy","t":"Estratégia de Data","d":"Melhor data: feriados, concorrência e sazonalidade.","a":"eventos","c":"event-market-research,event-budget-pro","v":false},{"n":"lineup-builder","t":"Montagem de Lineup","d":"Abertura → construção → pico → encerramento.","a":"eventos","c":"booking-strategy,lineup-flow","v":false},{"n":"booking-strategy","t":"Estratégia de Booking","d":"Abordar artistas, negociar cachê e estruturar contrato.","a":"eventos","c":"lineup-builder,music-contract","v":false},{"n":"lineup-flow","t":"Fluxo de Programação","d":"Horários com lógica de fluxo de público.","a":"eventos","c":"lineup-builder,event-rundown-pro","v":false},{"n":"team-structure","t":"Estrutura de Equipe","d":"Organograma por porte: funções e responsabilidades.","a":"eventos","c":"event-rundown-pro,vendor-selection","v":false},{"n":"vendor-selection","t":"Seleção de Fornecedores","d":"Checklist de fornecedores e red flags em cotação.","a":"eventos","c":"team-structure,event-budget-pro","v":false},{"n":"event-rundown-pro","t":"Rundown Operacional","d":"Timeline minuto a minuto com responsáveis e plano B.","a":"eventos","c":"team-structure,vendor-selection","v":false},{"n":"event-budget-pro","t":"Orçamento de Evento","d":"Custos, break-even e projeção de lucro.","a":"eventos","c":"ticket-strategy,sponsorship-strategy","v":false},{"n":"ticket-strategy","t":"Estratégia de Ingressos","d":"Lotes, preços, VIP e meta de receita antecipada.","a":"eventos","c":"event-budget-pro,event-launch-strategy","v":false},{"n":"sponsorship-strategy","t":"Estratégia de Patrocínio","d":"Mapa de patrocinadores, cotas e abordagem executiva.","a":"eventos","c":"event-budget-pro,sponsorship-deck","v":false},{"n":"event-launch-strategy","t":"Lançamento do Evento","d":"D-60 a D+7: teaser, revelação e campanha.","a":"eventos","c":"organic-event-hype,ticket-strategy","v":false},{"n":"organic-event-hype","t":"Hype Orgânico","d":"Criar FOMO e UGC espontâneo antes do evento.","a":"eventos","c":"event-launch-strategy,ugc-strategy","v":false},{"n":"experience-design","t":"Design de Experiência","d":"Elementos instagramáveis: cenografia e ritual de público.","a":"eventos","c":"organic-event-hype,event-launch-strategy","v":false},{"n":"event-trend-scanner","t":"Scanner de Tendências","d":"Formatos globais: XR, cashless, experiências híbridas.","a":"eventos","c":"trend-radar,event-concept","v":false},{"n":"post-event-report","t":"Relatório Pós-Evento","d":"Debrief: público real, receita, NPS e decisões futuras.","a":"eventos","c":"event-budget-pro,feedback-loop","v":false},{"n":"course-concept","t":"Conceito de Curso","d":"O que é, para quem e por que é diferente.","a":"cursos","c":"curriculum-builder,positioning-statement","v":false},{"n":"curriculum-builder","t":"Currículo Completo","d":"Módulos com sequência pedagógica do básico ao avançado.","a":"cursos","c":"course-concept,lesson-planner","v":false},{"n":"lesson-planner","t":"Planejador de Aula","d":"Abertura, desenvolvimento e exercício por aula.","a":"cursos","c":"curriculum-builder,live-class-format","v":false},{"n":"mentorship-framework","t":"Framework de Mentoria","d":"Sessões, metas, check-ins e acompanhamento.","a":"cursos","c":"lesson-planner,community-management","v":false},{"n":"content-production-guide","t":"Produção de Conteúdo","d":"Roteiro → gravação → edição → upload na plataforma.","a":"cursos","c":"lesson-planner,curriculum-builder","v":false},{"n":"course-sales-system","t":"Sistema de Vendas","d":"Página de vendas, oferta e argumentos que convertem.","a":"cursos","c":"launch-course-strategy,proposal-builder","v":false},{"n":"launch-course-strategy","t":"Lançamento de Curso","d":"D-21 a D+3: aquecimento, carrinho e fechamento.","a":"cursos","c":"course-sales-system,content-calendar","v":false},{"n":"community-management","t":"Gestão de Comunidade","d":"Engajamento, retenção e transformação em promotores.","a":"cursos","c":"mentorship-framework,feedback-loop","v":false},{"n":"assessment-builder","t":"Criação de Avaliações","d":"Exercícios e projetos que provam a transformação.","a":"cursos","c":"curriculum-builder,lesson-planner","v":false},{"n":"course-analytics","t":"Métricas de Curso","d":"Conclusão, NPS, evasão. O que mudar com dados reais.","a":"cursos","c":"feedback-loop,data-report-visual","v":false},{"n":"storybrand-framework","t":"StoryBrand","d":"Cliente como herói, marca como guia. 7 blocos.","a":"marketing","c":"positioning-statement,brand-voice","v":false},{"n":"positioning-statement","t":"Posicionamento","d":"Para quem, diferencial, mercado, por que ganha.","a":"marketing","c":"storybrand-framework,blue-ocean-strategy","v":false},{"n":"golden-circle","t":"Golden Circle","d":"Why → How → What. Lealdade além do preço.","a":"marketing","c":"storybrand-framework,brand-voice","v":false},{"n":"jobs-to-be-done","t":"Jobs to Be Done","d":"O trabalho real que o cliente contrata o produto para fazer.","a":"marketing","c":"storybrand-framework,persona-builder","v":false},{"n":"aida-modern","t":"AIDA Modernizado","d":"Atenção, Interesse, Desejo, Ação + Retenção digital.","a":"marketing","c":"ad-copy,hook-factory","v":false},{"n":"social-proof-system","t":"Sistema de Prova Social","d":"Depoimentos, cases e autoridade por etapa do funil.","a":"marketing","c":"aida-modern,customer-journey-map","v":false},{"n":"customer-journey-map","t":"Mapa da Jornada","d":"Awareness → Consideração → Decisão → Advocacy.","a":"marketing","c":"pirate-metrics-aarrr,social-proof-system","v":false},{"n":"blue-ocean-strategy","t":"Blue Ocean Strategy","d":"Matriz ERRC: mercado sem concorrência.","a":"marketing","c":"positioning-statement,competitor-positioning-map","v":false},{"n":"pirate-metrics-aarrr","t":"Pirate Metrics AARRR","d":"Acquisition, Activation, Retention, Revenue, Referral.","a":"marketing","c":"customer-journey-map,content-flywheel","v":false},{"n":"content-flywheel","t":"Content Flywheel","d":"Conteúdo → audiência → leads → clientes → mais conteúdo.","a":"marketing","c":"content-calendar,customer-journey-map","v":false},{"n":"client-onboarding","t":"Onboarding de Cliente","d":"Protocolo de boas-vindas e integração de novo cliente.","a":"auxiliares","c":"proposal-builder,brief-creator","v":false},{"n":"deadline-manager","t":"Gestão de Prazos","d":"Sistema de prazos, alertas e contingência.","a":"auxiliares","c":"project-breakdown,sop-builder","v":false},{"n":"feedback-loop","t":"Sistema de Feedback","d":"Coleta, processamento e resposta a feedbacks.","a":"auxiliares","c":"client-onboarding,course-analytics","v":false},{"n":"crisis-communication","t":"Comunicação em Crise","d":"Protocolo para cancelamentos e erros públicos.","a":"auxiliares","c":"press-release,feedback-loop","v":false},{"n":"dsp-profile-optimizer","t":"Otimização de Perfil DSP","d":"Spotify, Apple Music, YouTube Music — perfil completo.","a":"auxiliares","c":"metadata-setup,spotify-pitch","v":false},{"n":"release-notes-writer","t":"Notas de Lançamento","d":"Textos para distribuidoras e imprensa.","a":"auxiliares","c":"press-kit-music,metadata-setup","v":false},{"n":"reference-track-analysis","t":"Análise de Referência","d":"Dissecar qualquer faixa em parâmetros técnicos.","a":"auxiliares","c":"mix-template,mastering-guide","v":false},{"n":"suno-prompt-builder","t":"Suno Prompt Builder","d":"Prompts otimizados para Suno AI V4 por gênero.","a":"auxiliares","c":"melody-builder,rhythm-pattern","v":false},{"n":"vocal-direction-script","t":"Script de Direção Vocal","d":"Roteiro de direção para sessão de gravação.","a":"auxiliares","c":"vocal-tone-director,vocal-session-guide","v":false},{"n":"session-prep","t":"Prep de Sessão","d":"Preparar completamente uma sessão de produção musical.","a":"auxiliares","c":"reference-track-analysis,arrangement-guide","v":false},{"n":"venue-scout","t":"Venue Scout","d":"Pesquisa e análise de local para evento.","a":"auxiliares","c":"event-concept,event-budget-pro","v":false},{"n":"event-security-plan","t":"Plano de Segurança","d":"Segurança operacional para eventos presenciais.","a":"auxiliares","c":"event-rundown-pro,team-structure","v":false},{"n":"post-event-content","t":"Conteúdo Pós-Evento","d":"Plano de conteúdo para redes após o evento.","a":"auxiliares","c":"event-launch-strategy,content-calendar","v":false},{"n":"student-success-plan","t":"Plano do Aluno","d":"Plano individual para aluno em risco de evasão.","a":"auxiliares","c":"mentorship-framework,community-management","v":false},{"n":"live-class-format","t":"Formato de Aula ao Vivo","d":"Aula ao vivo com engajamento e dinâmicas reais.","a":"auxiliares","c":"lesson-planner,mentorship-framework","v":false},{"n":"course-upsell-path","t":"Trilha de Upsell","d":"Próximos passos para aluno que terminou o curso.","a":"auxiliares","c":"course-sales-system,launch-course-strategy","v":false},{"n":"affiliate-program-design","t":"Programa de Afiliados","d":"Afiliados para curso: comissão e recrutamento.","a":"auxiliares","c":"course-sales-system,launch-course-strategy","v":false},{"n":"competitor-positioning-map","t":"Mapa de Posicionamento","d":"Posicionamento da marca vs concorrentes.","a":"auxiliares","c":"positioning-statement,blue-ocean-strategy","v":false},{"n":"media-plan-builder","t":"Plano de Mídia","d":"Distribuição de verba por canal e objetivo.","a":"auxiliares","c":"ad-copy,retargeting-strategy","v":false},{"n":"influencer-brief","t":"Brief de Influenciador","d":"Brief completo de ativação para creator.","a":"auxiliares","c":"brand-voice,organic-event-hype","v":false},{"n":"retargeting-strategy","t":"Estratégia de Retargeting","d":"Retargeting por temperatura de audiência.","a":"auxiliares","c":"media-plan-builder,customer-journey-map","v":false},{"n":"ai-tools-guide","t":"Guia de Ferramentas IA","d":"Melhor ferramenta de IA por tarefa e área.","a":"auxiliares","c":"prompt-engineer,ai-creative-director","v":false},{"n":"whatsapp-funnel","t":"Funil WhatsApp","d":"Funil de vendas via WhatsApp do zero ao fechamento.","a":"auxiliares","c":"followup-sequence,course-sales-system","v":false},{"n":"data-report-visual","t":"Relatório Visual","d":"Dados brutos em relatório visual para cliente.","a":"auxiliares","c":"report-builder,pirate-metrics-aarrr","v":false},{"n":"partnership-deal-design","t":"Design de Parceria","d":"Estrutura de parcerias estratégicas com termos claros.","a":"auxiliares","c":"sponsorship-strategy,music-contract","v":false},{"n":"notion-workflow-builder","t":"Notion Workflow","d":"Sistema de gestão no Notion sem complexidade.","a":"auxiliares","c":"sop-builder,project-breakdown","v":false},{"n":"trend-radar","t":"Radar de Tendências","d":"Scanner cross-área: música, eventos, marketing, IA.","a":"auxiliares","c":"market-pulse,trend-sound-scanner","v":false},{"n":"hospitality-rider","t":"Rider de Hospitalidade","d":"Rider e camarim para artistas e equipe.","a":"auxiliares","c":"booking-strategy,artist-brief","v":false},{"n":"ecad-guide","t":"Guia ECAD","d":"Cadastro, declaração e recebimento de royalties no ECAD.","a":"auxiliares","c":"split-sheet,royalty-tracker","v":false},{"n":"whatsapp-bot-simple","t":"WhatsApp Bot Simples","d":"Bot de baixo custo para negócios locais.","a":"automacao","c":"chatbot-design,n8n-workflow-builder","v":false},{"n":"whatsapp-bot-advanced","t":"WhatsApp Bot Avançado","d":"Multi-fluxo com CRM e qualificação automática.","a":"automacao","c":"crm-automation,n8n-workflow-builder","v":false},{"n":"n8n-workflow-builder","t":"n8n Workflow Builder","d":"Workflows no n8n para qualquer processo.","a":"automacao","c":"make-automation,api-integration","v":false},{"n":"make-automation","t":"Make Automation","d":"Cenários no Make com foco em custo-benefício.","a":"automacao","c":"n8n-workflow-builder,api-integration","v":false},{"n":"payment-automation","t":"Payment Automation","d":"PIX, confirmação e liberação de acesso automáticos.","a":"automacao","c":"course-automation,event-automation","v":false},{"n":"notification-system","t":"Sistema de Notificações","d":"Notificações centralizadas por múltiplos canais.","a":"automacao","c":"n8n-workflow-builder,email-automation","v":false},{"n":"lead-automation","t":"Lead Automation","d":"Captação: tráfego → landing → CRM automático.","a":"automacao","c":"crm-automation,whatsapp-bot-advanced","v":false},{"n":"event-automation","t":"Event Automation","d":"Inscrição → confirmação → lembrete → check-in.","a":"automacao","c":"payment-automation,notification-system","v":false},{"n":"email-automation","t":"Email Automation","d":"Sequências de email automatizadas por gatilho.","a":"automacao","c":"crm-automation,lead-automation","v":false},{"n":"crm-automation","t":"CRM Automation","d":"Funil automatizado: lead → qualificação → fechamento.","a":"automacao","c":"whatsapp-bot-advanced,email-automation","v":false},{"n":"api-integration","t":"API Integration","d":"Integração de qualquer API externa em automação.","a":"automacao","c":"n8n-workflow-builder,data-sync","v":false},{"n":"chatbot-design","t":"Chatbot Design","d":"UX e fluxo conversacional de qualquer chatbot.","a":"automacao","c":"whatsapp-bot-simple,whatsapp-bot-advanced","v":false},{"n":"course-automation","t":"Course Automation","d":"Matrícula, acesso e certificado automáticos.","a":"automacao","c":"payment-automation,lead-automation","v":false},{"n":"automation-architecture","t":"Automation Architecture","d":"Arquitetura completa de sistema multi-empresa.","a":"automacao","c":"n8n-workflow-builder,crm-automation","v":false},{"n":"economic-audit","t":"Economic Audit","d":"Auditoria econômica de sistema de automação: ROI real.","a":"automacao","c":"automation-architecture,report-builder","v":false},{"n":"instagram-strategy","t":"Instagram Strategy","d":"Estratégia completa com crescimento orgânico.","a":"redes","c":"bio-profile-optimizer,stories-reels-format","v":false},{"n":"tiktok-strategy","t":"TikTok Strategy","d":"Algoritmo, formatos que crescem e conteúdo viral.","a":"redes","c":"viral-content,social-trends","v":false},{"n":"youtube-strategy","t":"YouTube Strategy","d":"SEO, thumbnails, retenção e monetização.","a":"redes","c":"analytics-master,bio-profile-optimizer","v":false},{"n":"telegram-community","t":"Telegram Community","d":"Canal e comunidade com crescimento e engajamento.","a":"redes","c":"community-management,whatsapp-funnel","v":false},{"n":"x-twitter-strategy","t":"X Twitter Strategy","d":"Threads, engajamento e autoridade no X.","a":"redes","c":"analytics-master,social-trends","v":false},{"n":"analytics-master","t":"Analytics Master","d":"Leitura de analytics de todas as plataformas.","a":"redes","c":"instagram-strategy,youtube-strategy","v":false},{"n":"competitor-social","t":"Competitor Social","d":"Análise de concorrentes nas redes por área.","a":"redes","c":"analytics-master,social-trends","v":false},{"n":"viral-content","t":"Viral Content","d":"Estruturas de conteúdo viral por plataforma.","a":"redes","c":"tiktok-strategy,instagram-strategy","v":false},{"n":"social-trends","t":"Social Trends","d":"Tendências em redes em tempo real para surfar o hype.","a":"redes","c":"viral-content,trend-radar","v":false},{"n":"collab-strategy","t":"Collab Strategy","d":"Colaborações entre perfis para crescimento mútuo.","a":"redes","c":"instagram-strategy,partnership-deal-design","v":false},{"n":"stories-reels-format","t":"Stories & Reels","d":"Estrutura de Reels para máximo de visualizações.","a":"redes","c":"instagram-strategy,viral-content","v":false},{"n":"social-calendar","t":"Social Calendar","d":"Calendário multi-plataforma com temas e datas.","a":"redes","c":"content-repurpose,content-calendar","v":false},{"n":"social-monetization","t":"Social Monetization","d":"Monetização além de ads: creator funds e parcerias.","a":"redes","c":"instagram-strategy,affiliate-program-design","v":false},{"n":"live-streaming","t":"Live Streaming","d":"Lives por plataforma: conteúdo, técnica e engajamento.","a":"redes","c":"instagram-strategy,youtube-strategy","v":false},{"n":"bio-profile-optimizer","t":"Bio Optimizer","d":"Bio em cada plataforma para máxima conversão.","a":"redes","c":"instagram-strategy,dsp-profile-optimizer","v":false},{"n":"system-audit","t":"System Audit","d":"Auditoria completa: skills, automações e processos.","a":"seguranca","c":"skill-maintenance,automation-health","v":false},{"n":"error-detection","t":"Error Detection","d":"Identificação e classificação de erros sistemáticos.","a":"seguranca","c":"system-audit,automation-health","v":false},{"n":"file-organization","t":"File Organization","d":"Organização de arquivos por padrão replicável.","a":"seguranca","c":"backup-protocol,content-cleanup","v":false},{"n":"monthly-review","t":"Monthly Review","d":"Revisão mensal com resultado e planejamento.","a":"seguranca","c":"weekly-review,project-health","v":false},{"n":"project-health","t":"Project Health","d":"Semáforo de saúde de projeto: prazo, escopo, equipe.","a":"seguranca","c":"deadline-manager,timeline-organizer","v":false},{"n":"skill-maintenance","t":"Skill Maintenance","d":"Manutenção e atualização das skills instaladas.","a":"seguranca","c":"system-audit,skill-optimizer","v":false},{"n":"system-documentation","t":"System Documentation","d":"Documentar sistemas para o time operar sozinho.","a":"seguranca","c":"sop-builder,skill-maintenance","v":false},{"n":"task-prioritizer","t":"Task Prioritizer","d":"Priorização por impacto: Eisenhower, RICE, MoSCoW.","a":"seguranca","c":"timeline-organizer,project-health","v":false},{"n":"timeline-organizer","t":"Timeline Organizer","d":"Organização de trabalho semanal com buffer.","a":"seguranca","c":"scheduling-system,deadline-manager","v":false},{"n":"workflow-cleanup","t":"Workflow Cleanup","d":"Limpeza de tarefas, arquivos e processos obsoletos.","a":"seguranca","c":"file-organization,system-audit","v":false},{"n":"weekly-review","t":"Weekly Review","d":"Protocolo de revisão semanal estruturado.","a":"seguranca","c":"task-prioritizer,timeline-organizer","v":false},{"n":"automation-health","t":"Automation Health","d":"Monitoramento de saúde de automações em produção.","a":"seguranca","c":"system-audit,error-detection","v":false},{"n":"backup-protocol","t":"Backup Protocol","d":"Protocolo de backup de arquivos e sistemas críticos.","a":"seguranca","c":"file-organization,version-control","v":false},{"n":"awwwards-grade","t":"Awwwards Grade","d":"Interface Awwwards: Locomotive Studio, Active Theory.","a":"html","c":"locomotive-scroll,dark-luxury-ui","v":false},{"n":"locomotive-scroll","t":"Locomotive Scroll","d":"Scroll cinematográfico narrativo. Referência: Locomotive Studio.","a":"html","c":"awwwards-grade,editorial-web","v":false},{"n":"stripe-aesthetic","t":"Stripe Aesthetic","d":"Precisão Stripe/Linear/Vercel — o melhor em SaaS design.","a":"html","c":"dark-luxury-ui,awwwards-grade","v":false},{"n":"basement-brutalist","t":"Basement Brutalist","d":"Brutalismo digital. Referência: Basement Studio.","a":"html","c":"acid-ui,awwwards-grade","v":false},{"n":"acid-ui","t":"Acid UI","d":"Maximalismo: Nike SNKRS, MSCHF, Virgil Abloh digital.","a":"html","c":"basement-brutalist,awwwards-grade","v":false},{"n":"dark-luxury-ui","t":"Dark Luxury UI","d":"Ferrari, Rolls-Royce, Bottega Veneta digital.","a":"html","c":"awwwards-grade,stripe-aesthetic","v":false},{"n":"bruno-simon-3d","t":"Bruno Simon 3D","d":"Experiências 3D interativas com Three.js.","a":"html","c":"awwwards-grade,locomotive-scroll","v":false},{"n":"photoshop-ai-workflow","t":"Photoshop AI","d":"Generative Fill, Expand, Remove Tool — 2024.","a":"adobe","c":"firefly-integration,lightroom-ai-workflow","v":false},{"n":"illustrator-ai-workflow","t":"Illustrator AI","d":"Text to Vector, Generative Recolor — 2024.","a":"adobe","c":"firefly-integration,photoshop-ai-workflow","v":false},{"n":"premiere-ai-workflow","t":"Premiere Pro AI","d":"Generative Extend, Enhance Speech, Frame.io.","a":"adobe","c":"after-effects-workflow,frame-io-workflow","v":false},{"n":"after-effects-workflow","t":"After Effects AI","d":"Roto Brush 2.0, Content-Aware Fill de vídeo.","a":"adobe","c":"premiere-ai-workflow,audition-workflow","v":false},{"n":"firefly-integration","t":"Firefly Integration","d":"Model 3, Structure Reference, Firefly Video.","a":"adobe","c":"photoshop-ai-workflow,express-workflow","v":false},{"n":"lightroom-ai-workflow","t":"Lightroom AI","d":"AI Lens Blur, Generative Remove, Denoise AI.","a":"adobe","c":"photoshop-ai-workflow,creative-cloud-libraries","v":false},{"n":"acrobat-ai-workflow","t":"Acrobat AI","d":"AI Assistant 2024, Compare Documents.","a":"adobe","c":"pdf-workflow-pro,creative-cloud-libraries","v":false},{"n":"frame-io-workflow","t":"Frame.io","d":"V4, Camera to Cloud, revisão colaborativa.","a":"adobe","c":"premiere-ai-workflow,video-export-workflow","v":false},{"n":"audition-workflow","t":"Audition AI","d":"Speech Enhancement IA, AI Remix, Sound Remover.","a":"adobe","c":"premiere-ai-workflow,after-effects-workflow","v":false},{"n":"creative-cloud-libraries","t":"CC Libraries","d":"Hub de assets: logo, cores, fontes sincronizados.","a":"adobe","c":"photoshop-ai-workflow,illustrator-ai-workflow","v":false},{"n":"pdf-workflow-pro","t":"PDF Workflow Pro","d":"PDF/X-4, formulário, assinatura e entrega.","a":"adobe","c":"acrobat-ai-workflow,indesign-workflow","v":false},{"n":"video-export-workflow","t":"Video Export","d":"Presets por plataforma: YouTube, Reels, TikTok.","a":"adobe","c":"premiere-ai-workflow,after-effects-workflow","v":false},{"n":"express-workflow","t":"Adobe Express","d":"Firefly no Express, Brand Kit e agendamento.","a":"adobe","c":"firefly-integration,creative-cloud-libraries","v":false},{"n":"substance-3d","t":"Substance 3D","d":"Product shots fotorrealistas com IA. AI Backdrop.","a":"adobe","c":"photoshop-ai-workflow,illustrator-ai-workflow","v":false},{"n":"indesign-workflow","t":"InDesign Workflow","d":"Firefly placeholder, Share for Review.","a":"adobe","c":"acrobat-ai-workflow,pdf-workflow-pro","v":false},{"n":"premiere-agent","t":"Premiere Agent","d":"Agente autônomo de edição no Premiere Pro.","a":"adobe","c":"premiere-ai-workflow,after-effects-workflow","v":false},{"n":"skill-creator","t":"Skill Creator","d":"Cria SKILL.md completo do zero para qualquer área.","a":"vip","c":"skill-optimizer,skill-daily-generator","v":true},{"n":"skill-optimizer","t":"Skill Optimizer","d":"Otimiza skills que não disparam ou têm output fraco.","a":"vip","c":"skill-creator,skill-library-manager","v":true},{"n":"skill-daily-generator","t":"Skill Daily Generator","d":"1 skill nova por dia baseada no trabalho real.","a":"vip","c":"skill-creator,skill-library-manager","v":true},{"n":"skill-installer-guide","t":"Skill Installer Guide","d":"Guia de instalação de skills no Claude.","a":"vip","c":"skill-creator,skill-library-manager","v":true},{"n":"skill-library-manager","t":"Skill Library Manager","d":"Gerencia o banco: inventário, gaps e expansão.","a":"vip","c":"skill-creator,skill-optimizer","v":true},{"n":"ai-artist-factory","t":"AI Artist Factory","d":"Pipeline completo de artista virtual com IA.","a":"vip","c":"ai-character-system,suno-prompt-builder","v":true},{"n":"monteiro-ops-center","t":"Monteiro Ops Center","d":"Painel CEO de todas as empresas e projetos.","a":"vip","c":"project-health,weekly-review","v":true},{"n":"ai-creative-director","t":"AI Creative Director","d":"Diretor criativo central do sistema visual com IA.","a":"vip","c":"ai-video-pipeline,ai-character-system","v":true}];
+const MCPS=[{"n":"file-manager","t":"File Manager","d":"Lê, cria, move e organiza arquivos locais com permissão explícita.","g":"produtividade","i":"npx @modelcontextprotocol/server-filesystem","r":"Node.js 18+"},{"n":"clipboard-manager","t":"Clipboard Manager","d":"Lê e escreve na área de transferência. Claude copia resultados direto.","g":"produtividade","i":"npx @modelcontextprotocol/server-clipboard","r":"Node.js 18+"},{"n":"notes-sync","t":"Notes Sync","d":"Sincroniza notas em Obsidian e Markdown. Claude lê e cria notas por comando.","g":"produtividade","i":"npx @modelcontextprotocol/server-obsidian","r":"Node.js 18+"},{"n":"task-manager","t":"Task Manager","d":"Gerencia tarefas no Todoist, Things ou TickTick por linguagem natural.","g":"produtividade","i":"npx @modelcontextprotocol/server-todoist","r":"Node.js 18+ · API key"},{"n":"calendar-manager","t":"Calendar Manager","d":"Lê e cria eventos no Google Calendar por linguagem natural.","g":"produtividade","i":"npx @modelcontextprotocol/server-google-calendar","r":"Node.js 18+ · OAuth"},{"n":"email-sender","t":"Email Sender","d":"Envia e lê emails via SMTP. Funciona com Gmail, Outlook, Zoho.","g":"comunicacao","i":"npx @modelcontextprotocol/server-email","r":"Node.js 18+ · SMTP credentials"},{"n":"whatsapp-sender","t":"WhatsApp Sender","d":"Envia mensagens e imagens via WhatsApp Business API.","g":"comunicacao","i":"npx @modelcontextprotocol/server-whatsapp","r":"Node.js 18+ · WA API key"},{"n":"telegram-bot","t":"Telegram Bot","d":"Envia e recebe mensagens em canais e grupos Telegram.","g":"comunicacao","i":"npx @modelcontextprotocol/server-telegram","r":"Node.js 18+ · Bot Token"},{"n":"slack-notifier","t":"Slack Notifier","d":"Envia mensagens e gerencia workspace Slack.","g":"comunicacao","i":"npx @modelcontextprotocol/server-slack","r":"Node.js 18+ · Slack Token"},{"n":"discord-bot","t":"Discord Bot","d":"Envia mensagens e gerencia servidores Discord.","g":"comunicacao","i":"npx @modelcontextprotocol/server-discord","r":"Node.js 18+ · Discord Token"},{"n":"web-scraper","t":"Web Scraper","d":"Extrai dados de qualquer site. Claude visita e retorna dados limpos.","g":"web-dados","i":"npx @modelcontextprotocol/server-puppeteer","r":"Node.js 18+ · Chrome"},{"n":"rss-reader","t":"RSS Reader","d":"Lê e monitora feeds RSS/Atom. Claude resume newsletters automaticamente.","g":"web-dados","i":"npx @modelcontextprotocol/server-rss","r":"Node.js 18+"},{"n":"api-caller","t":"API Caller","d":"Faz chamadas HTTP para qualquer REST API sem código adicional.","g":"web-dados","i":"npx @modelcontextprotocol/server-fetch","r":"Node.js 18+"},{"n":"search-engine","t":"Search Engine","d":"Pesquisa na web via Brave e retorna resultados estruturados.","g":"web-dados","i":"npx @modelcontextprotocol/server-brave-search","r":"Node.js 18+ · Brave API key"},{"n":"screenshot-taker","t":"Screenshot Taker","d":"Captura screenshot de qualquer URL. Claude analisa visualmente.","g":"web-dados","i":"npx @modelcontextprotocol/server-puppeteer","r":"Node.js 18+ · Chrome"},{"n":"pdf-reader","t":"PDF Reader","d":"Lê, extrai texto e tabelas de qualquer PDF sem upload manual.","g":"documentos","i":"npx @modelcontextprotocol/server-pdf","r":"Node.js 18+"},{"n":"spreadsheet-editor","t":"Spreadsheet Editor","d":"Lê e edita Excel e Google Sheets por linguagem natural.","g":"documentos","i":"npx @modelcontextprotocol/server-google-sheets","r":"Node.js 18+ · OAuth"},{"n":"image-resizer","t":"Image Resizer","d":"Redimensiona, converte e comprime imagens locais em lote.","g":"documentos","i":"npx @modelcontextprotocol/server-image","r":"Node.js 18+ · sharp"},{"n":"audio-transcriber","t":"Audio Transcriber","d":"Transcreve áudio e vídeo para texto via Whisper localmente.","g":"documentos","i":"npx @modelcontextprotocol/server-whisper","r":"Node.js 18+ · Python 3.10+"},{"n":"video-downloader","t":"Video Downloader","d":"Baixa vídeos e áudios de YouTube, Instagram e TikTok.","g":"documentos","i":"npx @modelcontextprotocol/server-ytdlp","r":"Node.js 18+ · yt-dlp"},{"n":"github-connector","t":"GitHub Connector","d":"Gerencia repos, issues, PRs e code review no GitHub.","g":"dev","i":"npx @modelcontextprotocol/server-github","r":"Node.js 18+ · GitHub Token"},{"n":"database-query","t":"Database Query","d":"Consulta PostgreSQL, MySQL e SQLite por linguagem natural.","g":"dev","i":"npx @modelcontextprotocol/server-postgres","r":"Node.js 18+ · Connection string"},{"n":"code-executor","t":"Code Executor","d":"Executa Python, JavaScript e Bash em ambiente seguro.","g":"dev","i":"npx @modelcontextprotocol/server-sandbox","r":"Node.js 18+ · Docker"},{"n":"docker-manager","t":"Docker Manager","d":"Gerencia containers, imagens e volumes Docker por chat.","g":"dev","i":"npx @modelcontextprotocol/server-docker","r":"Node.js 18+ · Docker Desktop"},{"n":"env-manager","t":"Environment Manager","d":"Gerencia variáveis de ambiente e arquivos .env com segurança.","g":"dev","i":"npx @modelcontextprotocol/server-env","r":"Node.js 18+"},{"n":"image-generator","t":"Image Generator","d":"Gera imagens via DALL-E ou Freepik API na conversa.","g":"criatividade","i":"npx @modelcontextprotocol/server-dalle","r":"Node.js 18+ · OpenAI API key"},{"n":"music-generator","t":"Music Generator","d":"Gera músicas via Suno AI API por descrição de gênero e mood.","g":"criatividade","i":"npx @modelcontextprotocol/server-suno","r":"Node.js 18+ · Suno API key"},{"n":"text-to-speech","t":"Text to Speech","d":"Converte texto em áudio via ElevenLabs. Narração e podcast.","g":"criatividade","i":"npx @modelcontextprotocol/server-elevenlabs","r":"Node.js 18+ · ElevenLabs key"},{"n":"translator","t":"Translator","d":"Traduz texto entre qualquer idioma via DeepL.","g":"criatividade","i":"npx @modelcontextprotocol/server-deepl","r":"Node.js 18+ · DeepL API key"},{"n":"qr-code-generator","t":"QR Code Generator","d":"Gera QR codes para URLs, WiFi e contatos. Salva localmente.","g":"criatividade","i":"npx @modelcontextprotocol/server-qrcode","r":"Node.js 18+"}];
+const AREA_LABELS={operacao:"Operação",musica:"Música & Jurídico",producao:"Produção Musical",eventos:"Eventos",cursos:"Cursos",marketing:"Marketing",auxiliares:"Auxiliares",automacao:"Automação",redes:"Redes Sociais",seguranca:"Segurança",html:"HTML Sites",adobe:"Adobe CC",vip:"VIP"};
+const GROUP_LABELS={produtividade:"Produtividade",comunicacao:"Comunicação","web-dados":"Web & Dados",documentos:"Documentos",dev:"Dev",criatividade:"Criatividade"};
+const AREA_COLORS={operacao:"#6c63ff",musica:"#f472b6",producao:"#38bdf8",eventos:"#fb923c",cursos:"#34d399",marketing:"#22d3a5",auxiliares:"#a78bfa",automacao:"#f97316",redes:"#e879f9",seguranca:"#94a3b8",html:"#10b981",adobe:"#ef4444",vip:"#fbbf24"};
+const GROUP_COLORS={produtividade:"#6c63ff",comunicacao:"#f472b6","web-dados":"#38bdf8",documentos:"#34d399",dev:"#f97316",criatividade:"#e879f9"};
+
+let state={screen:1,name:"",tab:"skills",cat:"all",search:"",fav:new Set(),inst:new Set(),current:null};
+
+try{
+  state.fav=new Set(JSON.parse(localStorage.getItem("aip-fav")||"[]"));
+  state.inst=new Set(JSON.parse(localStorage.getItem("aip-inst")||"[]"));
+  const savedName=localStorage.getItem("aip-name");
+  if(savedName){state.name=savedName}
+}catch(e){}
+
+function persist(){
+  try{
+    localStorage.setItem("aip-fav",JSON.stringify([...state.fav]));
+    localStorage.setItem("aip-inst",JSON.stringify([...state.inst]));
+    if(state.name)localStorage.setItem("aip-name",state.name);
+  }catch(e){}
+}
+
+function escapeHtml(s){return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[c])}
+
+function goToScreen(n){
+  document.querySelectorAll(".screen").forEach(el=>el.classList.remove("active"));
+  document.getElementById("tela-"+n).classList.add("active");
+  state.screen=n;
+  window.scrollTo({top:0,behavior:"instant"});
+  if(n===4)renderLibrary();
+}
+
+document.getElementById("entry-form").addEventListener("submit",e=>{
+  e.preventDefault();
+  const name=document.getElementById("entry-name").value.trim();
+  if(!name)return;
+  state.name=name;
+  persist();
+  document.getElementById("guide-name").textContent=name;
+  document.getElementById("lib-user-name").textContent=name;
+  document.getElementById("lib-avatar").textContent=name.charAt(0).toUpperCase();
+  goToScreen(2);
+});
+
+function switchTab(tab){
+  state.tab=tab; state.cat="all"; state.search="";
+  document.getElementById("lib-search").value="";
+  document.querySelectorAll(".lib-tab").forEach(el=>el.classList.toggle("active",el.dataset.tab===tab));
+  renderLibrary();
+}
+
+function renderLibrary(){
+  document.getElementById("tab-count-skills").textContent=SKILLS.length;
+  document.getElementById("tab-count-mcps").textContent=MCPS.length;
+  renderSidebar();
+  renderCards();
+  renderProgress();
+  renderFeatured();
+}
+
+function renderSidebar(){
+  const items = state.tab==="skills" ? SKILLS : MCPS;
+  const keyAttr = state.tab==="skills" ? "a" : "g";
+  const labels = state.tab==="skills" ? AREA_LABELS : GROUP_LABELS;
+  const totalLabel = state.tab==="skills" ? "Todas" : "Todos";
+  const counts={};
+  items.forEach(it=>{const k=it[keyAttr]; counts[k]=(counts[k]||0)+1});
+  const sorted=Object.keys(counts).sort((a,b)=>(labels[a]||a).localeCompare(labels[b]||b));
+  let html=`<li class="sidebar-item ${state.cat==='all'?'active':''}" onclick="selectCat('all')">${totalLabel}<span class="sb-count">${items.length}</span></li>`;
+  sorted.forEach(k=>{
+    html+=`<li class="sidebar-item ${state.cat===k?'active':''}" onclick="selectCat('${k}')">${labels[k]||k}<span class="sb-count">${counts[k]}</span></li>`;
+  });
+  document.getElementById("sidebar-list").innerHTML=html;
+}
+
+function selectCat(c){state.cat=c;renderCards();renderSidebar();renderFeatured()}
+
+function getFiltered(){
+  const items = state.tab==="skills" ? SKILLS : MCPS;
+  const keyAttr = state.tab==="skills" ? "a" : "g";
+  return items.filter(it=>{
+    if(state.cat!=="all" && it[keyAttr]!==state.cat)return false;
+    if(state.search){
+      const hay=(it.n+" "+it.t+" "+it.d).toLowerCase();
+      return hay.includes(state.search);
+    }
+    return true;
+  });
+}
+
+function renderCards(){
+  const filtered=getFiltered();
+  const total = state.tab==="skills"?SKILLS.length:MCPS.length;
+  document.getElementById("lib-results").textContent =
+    filtered.length===0?"Nenhum resultado":
+    filtered.length===1?"1 resultado":
+    `${filtered.length} resultados de ${total}`;
+  if(filtered.length===0){
+    document.getElementById("cards-grid").innerHTML=`<div class="lib-empty"><h3>Nada encontrado</h3><p>Tente outro termo ou troque o filtro.</p></div>`;
+    return;
+  }
+  const colors = state.tab==="skills"?AREA_COLORS:GROUP_COLORS;
+  const keyAttr = state.tab==="skills"?"a":"g";
+  document.getElementById("cards-grid").innerHTML=filtered.map(it=>{
+    const color=colors[it[keyAttr]]||"var(--accent)";
+    const isFav=state.fav.has(it.n);
+    const isInst=state.inst.has(it.n);
+    const vipBadge = state.tab==="skills" && it.v ? '<span class="card-vip">VIP</span>' : "";
+    const mcpBadge = state.tab==="mcps" ? '<span class="card-mcp">MCP</span>' : "";
+    return `<article class="card" style="--card-color:${color}" onclick="openModal('${it.n}')">
+      <div class="card-name">${escapeHtml(it.n)}${vipBadge}${mcpBadge}</div>
+      <h3 class="card-title">${escapeHtml(it.t)}</h3>
+      <p class="card-desc">${escapeHtml(it.d)}</p>
+      <div class="card-foot">
+        <span>${escapeHtml((state.tab==="skills"?AREA_LABELS:GROUP_LABELS)[it[keyAttr]]||"")}</span>
+        <div class="card-actions">
+          <button class="card-action ${isFav?'on-fav':''}" onclick="event.stopPropagation();toggleFav('${it.n}')" title="Favoritar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="${isFav?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <button class="card-action ${isInst?'on-inst':''}" onclick="event.stopPropagation();toggleInst('${it.n}')" title="Marcar como instalado">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12l5 5L20 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </article>`;
+  }).join("");
+}
+
+function renderProgress(){
+  const total=SKILLS.length;
+  const inst=[...state.inst].filter(n=>SKILLS.some(s=>s.n===n)).length;
+  document.getElementById("lib-progress").textContent = `${inst} de ${total} instalados`;
+}
+
+function renderFeatured(){
+  if(state.tab!=="skills" || state.cat!=="all" || state.search){
+    document.getElementById("featured-area").innerHTML="";
+    return;
+  }
+  const sk=getSkillOfDay();
+  if(!sk){document.getElementById("featured-area").innerHTML="";return}
+  document.getElementById("featured-area").innerHTML=`
+    <div class="featured" onclick="openModal('${sk.n}')">
+      <span class="featured-badge">Skill do dia</span>
+      <div class="featured-content">
+        <p class="featured-title">${escapeHtml(sk.t)}</p>
+        <p class="featured-desc">${escapeHtml(sk.d)}</p>
+      </div>
+      <svg class="featured-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </div>`;
+}
+
+function getSkillOfDay(){
+  const day=Math.floor(Date.now()/86400000);
+  return SKILLS[day % SKILLS.length];
+}
+
+function toggleFav(n){
+  if(state.fav.has(n))state.fav.delete(n); else state.fav.add(n);
+  persist(); renderCards();
+}
+function toggleInst(n){
+  if(state.inst.has(n))state.inst.delete(n); else state.inst.add(n);
+  persist(); renderCards(); renderProgress();
+}
+
+document.getElementById("lib-search").addEventListener("input",e=>{
+  state.search=e.target.value.toLowerCase().trim();
+  renderCards();
+  renderFeatured();
+});
+
+function openModal(n){
+  let item, type;
+  let it=SKILLS.find(s=>s.n===n);
+  if(it){item=it;type="skill"}
+  else{it=MCPS.find(m=>m.n===n); if(it){item=it;type="mcp"}}
+  if(!item)return;
+  state.current={item,type};
+
+  const cat = type==="skill" ? AREA_LABELS[item.a] : GROUP_LABELS[item.g];
+  const color = type==="skill" ? AREA_COLORS[item.a] : GROUP_COLORS[item.g];
+
+  const catEl=document.getElementById("m-cat");
+  catEl.textContent=cat;
+  catEl.style.color=color;
+  catEl.style.borderColor=color;
+  catEl.style.background=color+"1a";
+  document.getElementById("m-name").textContent=item.n;
+  document.getElementById("m-name").style.color=color;
+  document.getElementById("m-title").textContent=item.t;
+  document.getElementById("m-desc").textContent=item.d;
+
+  let body="";
+  if(type==="skill"){
+    if(item.c){
+      const pills=item.c.split(",").map(x=>x.trim()).filter(Boolean);
+      body+=`<div class="modal-row"><span class="modal-row-label">Skills complementares</span><div class="modal-pills">${pills.map(p=>`<span class="modal-pill">${escapeHtml(p)}</span>`).join("")}</div></div>`;
+    }
+    body+=`<div class="modal-row"><span class="modal-row-label">Caminho de instalação no Claude</span><div class="modal-code">/mnt/skills/user/${escapeHtml(item.n)}/SKILL.md</div></div>`;
+    body+=`<div class="modal-row"><span class="modal-row-label">Como instalar</span><div class="modal-row-val">Baixe o ZIP no Drive → arraste no Claude → digite "Instale o skill ${escapeHtml(item.n)}".</div></div>`;
+    body+=`<div class="modal-row"><span class="modal-row-label">Status</span><div class="modal-row-val">${state.inst.has(item.n)?"✓ Instalado":"Não instalado"} · ${state.fav.has(item.n)?"♥ Favoritado":"Sem favorito"}</div></div>`;
+    document.getElementById("m-copy").textContent="Copiar prompt de instalação";
+  } else {
+    body+=`<div class="modal-row"><span class="modal-row-label">Comando de instalação</span><div class="modal-code">${escapeHtml(item.i)}</div></div>`;
+    if(item.r)body+=`<div class="modal-row"><span class="modal-row-label">Pré-requisitos</span><div class="modal-row-val">${escapeHtml(item.r)}</div></div>`;
+    body+=`<div class="modal-row"><span class="modal-row-label">Como adicionar</span><div class="modal-row-val">No Claude Desktop, abra Settings → Developer → Edit Config. Adicione esse servidor dentro de mcpServers e reinicie o app.</div></div>`;
+    document.getElementById("m-copy").textContent="Copiar comando";
+  }
+  document.getElementById("m-body").innerHTML=body;
+  document.getElementById("m-drive").href = DRIVE_URL;
+  document.getElementById("modal").classList.add("open");
+  document.body.style.overflow="hidden";
+}
+
+function closeModal(){
+  document.getElementById("modal").classList.remove("open");
+  document.body.style.overflow="";
+  state.current=null;
+}
+
+document.getElementById("m-copy").addEventListener("click",()=>{
+  if(!state.current)return;
+  const {item,type}=state.current;
+  const text = type==="skill"
+    ? `Instale o skill ${item.n} no meu sistema Claude. Crie a pasta /mnt/skills/user/${item.n}/ e salve o SKILL.md dentro dela.`
+    : item.i;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.getElementById("m-copy");
+    const orig=btn.textContent;
+    btn.classList.add("copied");
+    btn.textContent="✓ Copiado";
+    setTimeout(()=>{btn.classList.remove("copied");btn.textContent=orig},1800);
+  });
+});
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")closeModal();
+});
+
+(function init(){
+  if(state.name){
+    document.getElementById("entry-name").value=state.name;
+    document.getElementById("guide-name").textContent=state.name;
+    document.getElementById("lib-user-name").textContent=state.name;
+    document.getElementById("lib-avatar").textContent=state.name.charAt(0).toUpperCase();
+  }
+})();
+</script>
+</body>
+</html>
