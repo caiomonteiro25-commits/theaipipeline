@@ -45,25 +45,24 @@ Depois rode o deploy (abaixo) pra publicar.
 
 ## Colocar no ar (1ª vez)
 
-1. **DNS** — no painel onde o `mtrx.com.br` é gerenciado, crie:
+1. **DNS** — ✅ já configurado no Registro.br (zona do `mtrx.com.br`):
 
    | Tipo | Nome | Valor |
    |---|---|---|
-   | `A` | `shows` | IP da VPS |
-
-   Espere propagar (`ping shows.mtrx.com.br` deve responder com o IP da VPS).
-   O certificado HTTPS do passo 2 só é emitido depois disso.
+   | `A` | `shows.mtrx.com.br` | `187.127.42.210` (VPS Hostinger) |
 
 2. **Setup da VPS** — do seu computador, na raiz do repositório:
 
    ```bash
-   VPS=root@IP-DA-VPS EMAIL=seu@email ./shows-mtrx/deploy/deploy.sh --setup
+   VPS=root@187.127.42.210 EMAIL=seu@email ./shows-mtrx/deploy/deploy.sh --setup
    ```
 
    Instala nginx e certbot (se faltarem), ativa o site, emite o HTTPS e publica a página.
+   Se a porta 80 da VPS já estiver ocupada por outro serviço (ex.: Traefik/Docker),
+   o script para sem mexer em nada — aí o site precisa entrar por esse serviço.
 
 ## Atualizar a agenda
 
 ```bash
-VPS=root@IP-DA-VPS ./shows-mtrx/deploy/deploy.sh
+VPS=root@187.127.42.210 ./shows-mtrx/deploy/deploy.sh
 ```
