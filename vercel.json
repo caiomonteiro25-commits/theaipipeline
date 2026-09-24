@@ -14,13 +14,6 @@
         { "type": "host", "value": "bibl10t3c4secr3t4.theaipipeline.com.br" }
       ],
       "dest": "/biblioteca/$1"
-    },
-    {
-      "src": "/(.*)",
-      "has": [
-        { "type": "host", "value": "shows\\.mtrx\\..*" }
-      ],
-      "dest": "/shows-mtrx/$1"
     }
   ]
 }

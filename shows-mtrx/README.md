@@ -1,30 +1,24 @@
-# shows.mtrx
+# shows.mtrx.com.br
 
-Diretório do subdomínio de shows da MTRX.
+Diretório do subdomínio de shows da MTRX, hospedado na **VPS da Hostinger**
+(nginx). Não passa pelo Vercel: a pasta inteira está no `.vercelignore`.
 
 ```
 shows-mtrx/
 ├── index.html      ← página pública da agenda (lê shows.json)
 ├── shows.json      ← lista de shows — é o único arquivo a editar pra atualizar a agenda
-├── README.md       ← este guia (não vai pro deploy)
-└── materiais/      ← material interno (não vai pro deploy)
+├── README.md       ← este guia
+├── deploy/
+│   ├── nginx.conf  ← site do nginx na VPS
+│   └── deploy.sh   ← publica na VPS
+└── materiais/      ← material interno (nunca vai pra VPS)
     ├── riders/     ← riders técnicos e de camarim
     ├── briefs/     ← briefs de produção por show
     └── artes/      ← artes de divulgação
 ```
 
-## Como funciona
-
-O `vercel.json` na raiz detecta o hostname `shows.mtrx.*` e reescreve a rota
-internamente para `/shows-mtrx/` — mesma técnica usada na biblioteca.
-
-| Quem acessa | O que vê |
-|---|---|
-| `theaipipeline.com.br` | Landing principal (intacta) |
-| `shows.mtrx.<domínio>` | Agenda de shows (`shows-mtrx/index.html`) |
-
-`materiais/` e `README.md` estão no `.vercelignore`, então **não** são
-publicados — ficam só no repositório.
+Na VPS o site fica em `/var/www/shows.mtrx.com.br/` e só recebe
+`index.html` + `shows.json`.
 
 ## Adicionar um show
 
@@ -47,8 +41,29 @@ Edite `shows.json`. Cada show é um objeto:
 - Sem `ingressos` → botão aparece como "Em breve".
 - `esgotado: true` → botão aparece como "Esgotado".
 
-## Ativar o subdomínio
+Depois rode o deploy (abaixo) pra publicar.
 
-1. No projeto da Vercel: **Settings → Domains → Add** `shows.mtrx.<domínio>`.
-2. No DNS do domínio: registro `CNAME` `shows.mtrx` → `cname.vercel-dns.com`.
-3. Fazer deploy (`vercel --prod` ou push na branch de produção).
+## Colocar no ar (1ª vez)
+
+1. **DNS** — no painel onde o `mtrx.com.br` é gerenciado, crie:
+
+   | Tipo | Nome | Valor |
+   |---|---|---|
+   | `A` | `shows` | IP da VPS |
+
+   Espere propagar (`ping shows.mtrx.com.br` deve responder com o IP da VPS).
+   O certificado HTTPS do passo 2 só é emitido depois disso.
+
+2. **Setup da VPS** — do seu computador, na raiz do repositório:
+
+   ```bash
+   VPS=root@IP-DA-VPS EMAIL=seu@email ./shows-mtrx/deploy/deploy.sh --setup
+   ```
+
+   Instala nginx e certbot (se faltarem), ativa o site, emite o HTTPS e publica a página.
+
+## Atualizar a agenda
+
+```bash
+VPS=root@IP-DA-VPS ./shows-mtrx/deploy/deploy.sh
+```
