@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MTRX — Shows</title>
+<meta name="description" content="Agenda de shows MTRX: próximas datas, cidades e ingressos.">
+<meta name="theme-color" content="#05050F">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="MTRX — Shows">
+<meta property="og:description" content="Agenda de shows MTRX: próximas datas, cidades e ingressos.">
+<meta property="og:locale" content="pt_BR">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='8' fill='%2305050F'/><text x='5' y='31' font-family='monospace' font-size='15' font-weight='bold' fill='%23C8FF00'>MTRX</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-0: #05050F;
+  --bg-1: #0A0A12;
+  --bg-2: #111125;
+  --line: rgba(255,255,255,0.08);
+  --line-strong: rgba(255,255,255,0.16);
+  --text-1: #FFFFFF;
+  --text-2: #BBBBBB;
+  --text-3: #6B6B7A;
+  --violet: #7B4FE0;
+  --lime: #C8FF00;
+  --grad: linear-gradient(135deg, #7B4FE0 0%, #C8FF00 100%);
+  --on-grad: #0A0A12;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body);
+  color: var(--text-1);
+  background: var(--bg-0);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(123,79,224,0.25), transparent 45%),
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: auto, 48px 48px, 48px 48px;
+}
+
+.wrap { max-width: 880px; margin: 0 auto; padding: 72px 20px 96px; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--lime);
+}
+h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-size: clamp(48px, 10vw, 96px);
+  line-height: 0.95;
+  margin: 16px 0 20px;
+}
+h1 span {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lead { color: var(--text-2); font-size: 17px; max-width: 520px; line-height: 1.6; }
+
+.list { margin-top: 56px; border-top: 1px solid var(--line); }
+.show {
+  display: grid;
+  grid-template-columns: 96px 1fr auto;
+  gap: 20px;
+  align-items: center;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
+}
+.date { font-family: var(--font-mono); line-height: 1.2; }
+.date .d { font-family: var(--font-display); font-size: 32px; font-weight: 700; }
+.date .m { font-size: 12px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.12em; }
+.info .city { font-family: var(--font-display); font-size: 20px; font-weight: 700; }
+.info .venue { color: var(--text-2); font-size: 14px; margin-top: 4px; }
+.btn {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--lime);
+  color: var(--on-grad);
+}
+.btn.off {
+  background: transparent;
+  color: var(--text-3);
+  border: 1px solid var(--line-strong);
+}
+.empty {
+  padding: 48px 0;
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 14px;
+}
+footer {
+  margin-top: 64px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+@media (max-width: 560px) {
+  .wrap { padding: 48px 16px 72px; }
+  .show { grid-template-columns: 64px 1fr; }
+  .show .cta { grid-column: 2; }
+  .date .d { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <p class="eyebrow">Agenda oficial</p>
+  <h1>MTRX <span>Shows</span></h1>
+  <p class="lead">Próximas datas, cidades e ingressos.</p>
+
+  <section class="list" id="shows" aria-live="polite">
+    <p class="empty">Carregando agenda…</p>
+  </section>
+
+  <footer>© <span id="year"></span> MTRX</footer>
+</main>
+
+<script>
+(function () {
+  var MONTHS = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+  var list = document.getElementById('shows');
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  function render(shows) {
+    var today = new Date().toISOString().slice(0, 10);
+    var upcoming = shows
+      .filter(function (s) { return s.data && s.data >= today; })
+      .sort(function (a, b) { return a.data < b.data ? -1 : 1; });
+
+    list.textContent = '';
+    if (!upcoming.length) {
+      list.appendChild(el('p', 'empty', 'Nenhum show anunciado no momento. Volte em breve.'));
+      return;
+    }
+
+    upcoming.forEach(function (s) {
+      var parts = s.data.split('-');
+      var row = el('article', 'show');
+
+      var date = el('div', 'date');
+      date.appendChild(el('div', 'd', parts[2]));
+      date.appendChild(el('div', 'm', MONTHS[parseInt(parts[1], 10) - 1] + ' ' + parts[0]));
+
+      var info = el('div', 'info');
+      info.appendChild(el('div', 'city', s.cidade || ''));
+      info.appendChild(el('div', 'venue', [s.local, s.horario].filter(Boolean).join(' · ')));
+
+      var cta = el('div', 'cta');
+      if (s.esgotado) {
+        cta.appendChild(el('span', 'btn off', 'Esgotado'));
+      } else if (s.ingressos) {
+        var a = el('a', 'btn', 'Ingressos');
+        a.href = s.ingressos;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        cta.appendChild(a);
+      } else {
+        cta.appendChild(el('span', 'btn off', 'Em breve'));
+      }
+
+      row.appendChild(date);
+      row.appendChild(info);
+      row.appendChild(cta);
+      list.appendChild(row);
+    });
+  }
+
+  fetch('shows.json', { cache: 'no-store' })
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(render)
+    .catch(function () {
+      list.textContent = '';
+      list.appendChild(el('p', 'empty', 'Não foi possível carregar a agenda agora.'));
+    });
+})();
+</script>
+</body>
+</html>
